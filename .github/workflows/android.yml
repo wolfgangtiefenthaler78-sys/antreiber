@@ -1,0 +1,87 @@
+name: Android-App bauen und veröffentlichen
+
+# Baut die Antreiber-App. Mit den Secrets ANDROID_KEYSTORE_B64 und ANDROID_KEYSTORE_PASSWORD
+# wird sie unterschrieben und als „neueste Version“ veröffentlicht. Feste Links:
+#   https://github.com/wolfgangtiefenthaler78-sys/antreiber/releases/latest/download/antreiber.apk
+#   …/latest/download/version.json + app.html (daraus holen installierte Apps Neuerungen selbst)
+# Ohne Secrets entsteht nur eine Test-APK (unter „Artifacts“ des Laufs), nichts wird veröffentlicht.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android
+  cancel-in-progress: false
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - run: npm run android
+      - name: Schlüssel bereitstellen
+        id: key
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          PW: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        run: |
+          if [ -n "$KS" ] && [ -n "$PW" ]; then
+            echo "$KS" | base64 -d > "$RUNNER_TEMP/release.jks"; echo "signed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Secrets ANDROID_KEYSTORE_B64 / ANDROID_KEYSTORE_PASSWORD fehlen – es entsteht nur eine Test-APK."
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: App bauen
+        working-directory: android
+        env:
+          AB_KEYSTORE_FILE: ${{ steps.key.outputs.signed == 'true' && format('{0}/release.jks', runner.temp) || '' }}
+          AB_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          AB_VERSION_CODE: ${{ github.run_number }}
+          AB_VERSION_NAME: 1.0.${{ github.run_number }}
+        run: |
+          chmod +x gradlew
+          for i in 1 2 3 4 5; do ./gradlew --version --no-daemon && break; [ "$i" = 5 ] && exit 1; echo "Gradle-Download fehlgeschlagen, neuer Versuch in $((i*30)) s"; sleep $((i*30)); done
+          if [ "${{ steps.key.outputs.signed }}" = "true" ]; then
+            ./gradlew assembleRelease bundleRelease --no-daemon
+            cp app/build/outputs/apk/release/app-release.apk ../antreiber.apk
+            cp app/build/outputs/bundle/release/app-release.aab ../antreiber.aab
+          else
+            ./gradlew assembleDebug --no-daemon
+            cp app/build/outputs/apk/debug/app-debug.apk ../antreiber.apk
+          fi
+      - name: Test-APK ablegen (ohne Unterschrift)
+        if: steps.key.outputs.signed != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Antreiber-Test-APK
+          path: antreiber.apk
+      - name: Als „neueste Version“ veröffentlichen
+        if: steps.key.outputs.signed == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          name: Antreiber für Android 1.0.${{ github.run_number }}
+          make_latest: true
+          body: |
+            Antreiber-Test (MAYOKA andersch gsund) für Android.
+            Installieren: antreiber.apk am Handy herunterladen und öffnen.
+            Fester Link: https://github.com/wolfgangtiefenthaler78-sys/antreiber/releases/latest/download/antreiber.apk
+          files: |
+            antreiber.apk
+            antreiber.aab
+            dist/version.json
+            dist/app.html

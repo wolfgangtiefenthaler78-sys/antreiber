@@ -1,0 +1,7 @@
+{
+  "shell": 1,
+  "minShell": 1,
+  "apkUrl": "https://github.com/wolfgangtiefenthaler78-sys/antreiber/releases/latest/download/antreiber.apk",
+  "updateBase": "https://github.com/wolfgangtiefenthaler78-sys/antreiber/releases/latest/download/",
+  "_hinweis": "shell = nativer Stand der App. Um 1 erhöhen bei Änderungen am nativen Teil (Plugins, Berechtigungen, Symbol, capacitor.config.json). Ältere Apps bieten dann 'Jetzt aktualisieren' an. minShell nur erhöhen, wenn ältere Apps neue Inhalte gar nicht mehr laden dürfen."
+}
