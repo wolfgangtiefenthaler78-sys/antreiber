@@ -39,7 +39,16 @@ jobs:
           PW: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
         run: |
           if [ -n "$KS" ] && [ -n "$PW" ]; then
-            echo "$KS" | base64 -d > "$RUNNER_TEMP/release.jks"; echo "signed=true" >> "$GITHUB_OUTPUT"
+            # Leerzeichen/Zeilenumbrüche vom Einfügen entfernen
+            printf '%s' "$KS" | tr -d ' \r\n\t' | base64 -d > "$RUNNER_TEMP/release.jks" || { echo "::error::ANDROID_KEYSTORE_B64 ist kein gültiger Schlüssel-Text (Länge ${#KS} Zeichen, erwartet 5780). Bitte den ganzen Text aus ANDROID_KEYSTORE_B64.txt neu einfügen."; exit 1; }
+            PWC=$(printf '%s' "$PW" | tr -d ' \r\n\t')
+            echo "::add-mask::$PWC"
+            echo "Prüfwert Schlüssel: $(sha256sum "$RUNNER_TEMP/release.jks" | cut -c1-12) (richtig: fcc431ae7fd3) · Länge Text ${#KS} (richtig: 5780) · Länge Passwort ${#PWC} (richtig: 28)"
+            if ! keytool -list -keystore "$RUNNER_TEMP/release.jks" -storepass "$PWC" -alias antreiber >/dev/null 2>&1; then
+              echo "::error::Schlüssel oder Passwort passen nicht. Bitte beide Secrets aus Google Drive (Apps › Antreiber – App-Schlüssel) neu einfügen."; exit 1
+            fi
+            echo "PWC=$PWC" >> "$GITHUB_ENV"
+            echo "signed=true" >> "$GITHUB_OUTPUT"
           else
             echo "::warning::Secrets ANDROID_KEYSTORE_B64 / ANDROID_KEYSTORE_PASSWORD fehlen – es entsteht nur eine Test-APK."
             echo "signed=false" >> "$GITHUB_OUTPUT"
@@ -48,7 +57,7 @@ jobs:
         working-directory: android
         env:
           AB_KEYSTORE_FILE: ${{ steps.key.outputs.signed == 'true' && format('{0}/release.jks', runner.temp) || '' }}
-          AB_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          AB_KEYSTORE_PASSWORD: ${{ env.PWC }}
           AB_VERSION_CODE: ${{ github.run_number }}
           AB_VERSION_NAME: 1.0.${{ github.run_number }}
         run: |
