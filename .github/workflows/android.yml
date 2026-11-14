@@ -39,6 +39,11 @@ jobs:
           PW: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
         run: |
           if [ -n "$KS" ] && [ -n "$PW" ]; then
+            # Vertauscht eingetragen? (Schlüssel-Text ist lang, Passwort kurz)
+            if [ ${#KS} -lt 200 ] && [ ${#PW} -gt 200 ]; then
+              echo "::notice::Die beiden Secrets sind vertauscht eingetragen – wird automatisch richtig verwendet."
+              T="$KS"; KS="$PW"; PW="$T"
+            fi
             # Leerzeichen/Zeilenumbrüche vom Einfügen entfernen
             printf '%s' "$KS" | tr -d ' \r\n\t' | base64 -d > "$RUNNER_TEMP/release.jks" || { echo "::error::ANDROID_KEYSTORE_B64 ist kein gültiger Schlüssel-Text (Länge ${#KS} Zeichen, erwartet 5780). Bitte den ganzen Text aus ANDROID_KEYSTORE_B64.txt neu einfügen."; exit 1; }
             PWC=$(printf '%s' "$PW" | tr -d ' \r\n\t')
