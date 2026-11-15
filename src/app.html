@@ -18,7 +18,7 @@
   --bg:#fdf6f0; --glow-o:rgba(251,138,64,.28); --glow-b:rgba(92,192,222,.30);
   --surface:rgba(255,255,255,.82); --surface-solid:#ffffff; --fg:#2a2420; --muted:#6d625a; --line:#ecdcd0;
   --accent:#b9561a; --accent-ink:#ffffff; --accent-soft:#fde9da;
-  --d-perfekt:#2f7fa3; --d-stark:#66717d; --d-beeil:#d4622a; --d-streng:#9a7413; --d-recht:#a8487e;
+  --d-perfekt:#2b7bb9; --d-stark:#2f8f5b; --d-beeil:#d4622a; --d-streng:#7b5cc4; --d-recht:#c03f7c;
   --f-display:"Familjen Grotesk", system-ui, sans-serif;
   --f-text:"Atkinson Hyperlegible", system-ui, sans-serif;
   --f-num:"IBM Plex Mono", ui-monospace, monospace;
@@ -28,7 +28,7 @@
   --bg:#1a1714; --glow-o:rgba(251,138,64,.16); --glow-b:rgba(92,192,222,.13);
   --surface:rgba(38,32,28,.86); --surface-solid:#26201c; --fg:#f1e9e2; --muted:#b4a79c; --line:#3e342d;
   --accent:#fb8a40; --accent-ink:#1d1612; --accent-soft:#3a2a1f;
-  --d-perfekt:#6cc3e3; --d-stark:#aab6c2; --d-beeil:#f59a6a; --d-streng:#dcb862; --d-recht:#e293c0;
+  --d-perfekt:#3f8fd6; --d-stark:#36a265; --d-beeil:#dc6c34; --d-streng:#9278e0; --d-recht:#d9558f;
   color-scheme:dark}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
@@ -108,6 +108,79 @@ details[open] summary::after{content:"–"}
 .update .in{max-width:600px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
 .update p{flex:1 1 220px}
 .ver{font-family:var(--f-num);font-size:12px;color:var(--muted)}
+
+/* ---- Einladender Start ---- */
+.hero{display:grid;gap:14px;align-items:center}
+.hero svg{width:100%;max-width:360px;height:auto;margin:0 auto;display:block}
+.cap{font-size:14px;color:var(--muted);text-align:center}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 8px;text-align:center;font-size:14px;line-height:1.3}
+.fact b{display:block;font-family:var(--f-display);font-size:20px;color:var(--fg)}
+.chip{width:100%;text-align:left;font:inherit;line-height:1.35}
+button.chip:hover{border-color:var(--accent)}
+button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--accent-soft)}
+.chip:focus-visible,.tog:focus-visible,.tab:focus-visible,.seg button:focus-visible,.day:focus-visible,.pt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.info{border-left:5px solid var(--accent)}
+.mini{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center}
+.mini svg{width:96px;height:96px}
+.linkish{background:none;border:0;padding:0;color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px;min-height:32px}
+
+/* ---- Grafiken ---- */
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:12px;background:var(--line);align-self:flex-start;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:9px;padding:7px 14px;min-height:38px;font-weight:700;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface-solid);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.radar{width:100%;max-width:460px;height:auto;margin:0 auto;display:block;overflow:visible}
+.radar text{font-family:var(--f-display);font-size:15px;fill:var(--fg);font-weight:700}
+.radar text .sc{font-family:var(--f-num);font-size:13px;fill:var(--muted);font-weight:500}
+.radar .pt{cursor:pointer}
+.radar .pt:focus{outline:none}
+.radar .pt:focus-visible .ring{stroke:var(--accent);stroke-width:3}
+.tip{min-height:1.6em;font-size:15px;text-align:center}
+.chk{display:flex;gap:10px;align-items:center;font-size:15px;min-height:40px;cursor:pointer}
+.chk input{width:22px;height:22px;accent-color:var(--accent);margin:0}
+.delta{font-family:var(--f-num);font-size:12px;color:var(--muted);margin-left:6px}
+.strip{position:relative;height:22px;margin-top:4px}
+.strip .ln{position:absolute;left:0;right:0;top:10px;height:2px;background:var(--line);border-radius:1px}
+.strip .th{position:absolute;top:2px;bottom:2px;width:2px;background:var(--muted)}
+.strip .dt{position:absolute;top:4px;width:14px;height:14px;margin-left:-7px;border-radius:50%;border:2px solid var(--surface-solid)}
+.axis{display:flex;justify-content:space-between;font-family:var(--f-num);font-size:12px;color:var(--muted)}
+.hist{display:flex;flex-direction:column;gap:6px}
+.hist button{display:flex;justify-content:space-between;gap:10px;align-items:center;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);min-height:48px}
+.hist button[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.hist .when{font-family:var(--f-num);font-size:13px;color:var(--muted);white-space:nowrap}
+
+/* ---- Werkzeuge ---- */
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.tab{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 6px;min-height:64px;font-weight:700;font-size:14px;line-height:1.2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.togs{display:flex;flex-direction:column;gap:8px}
+.tog{display:flex;gap:12px;align-items:center;text-align:left;width:100%;padding:11px 14px;border-radius:12px;min-height:50px;border:1px solid var(--line);background:var(--surface)}
+.tog .box{width:24px;height:24px;border-radius:7px;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-size:15px;line-height:1}
+.tog[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.tog[aria-pressed="true"] .box{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.mbar{display:grid;grid-template-columns:minmax(0,9.5em) 1fr 1.5em;gap:10px;align-items:center;font-size:14px}
+.mbar .t{height:10px;background:var(--line);border-radius:5px;overflow:hidden}
+.mbar .t i{display:block;height:100%;border-radius:5px}
+.mbar .n{font-family:var(--f-num);text-align:right}
+.pcard{position:relative;overflow:hidden;border-radius:20px;padding:30px 22px 22px;background:var(--surface-solid);border:1px solid var(--line);min-height:210px;display:flex;flex-direction:column;justify-content:center;gap:14px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.pcard::before{content:"";position:absolute;inset:0 0 auto 0;height:8px;background:var(--pc,var(--accent))}
+.pcard .big{font-family:var(--f-display);font-weight:700;font-size:clamp(24px,6.5vw,30px);line-height:1.2;text-wrap:balance}
+.pcard.fresh{animation:pop .25s ease-out 1}
+@keyframes pop{from{transform:scale(.97);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){.pcard.fresh{animation:none}}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pills button{display:flex;gap:7px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;min-height:40px;font-size:14px}
+.pills button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:700}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{aspect-ratio:1;border-radius:50%;border:2px dashed var(--line);background:var(--surface);display:grid;place-items:center;font-family:var(--f-num);font-size:14px;min-height:40px;padding:0}
+.day[aria-pressed="true"]{border-style:solid;border-color:var(--pc,var(--accent));background:var(--pc,var(--accent));color:#fff;font-size:18px}
+.saved{border-left:5px solid var(--pc,var(--accent))}
+.saved .big{font-family:var(--f-display);font-weight:700;font-size:21px;line-height:1.25}
+@media (min-width:720px){
+  main{max-width:640px}
+  .hero{grid-template-columns:1.1fr 1fr}
+}
 </style>
 </head>
 <body>
@@ -118,21 +191,43 @@ details[open] summary::after{content:"–"}
       <div class="stack" style="gap:8px"><div class="stripe"></div><span class="eyebrow">Selbsttest</span></div>
       <img src="mayoka-logo.png" alt="MAYOKA andersch gsund">
     </div>
-    <div class="stack">
-      <h1>Was treibt mich an?</h1>
-      <p>Viele Menschen tragen innere Sätze aus der Kindheit mit sich. Zum Beispiel: „Mach keine Fehler!“ Solche Sätze heißen <b>Antreiber</b>. Sie helfen uns oft. Unter Stress werden sie aber zur Last.</p>
-      <p>Der Test zeigt, welche der fünf Antreiber bei Ihnen stark sind. Er dauert etwa 8 Minuten.</p>
+    <div class="hero">
+      <div class="stack">
+        <h1>Was treibt mich an?</h1>
+        <p>Viele Menschen tragen innere Sätze aus der Kindheit mit sich. Zum Beispiel: „Mach keine Fehler!“ Solche Sätze heißen <b>Antreiber</b>. Sie helfen uns oft. Unter Stress werden sie aber zur Last.</p>
+        <p>Der Test zeigt, welche der fünf Antreiber bei Ihnen stark sind.</p>
+      </div>
+      <figure class="stack" style="margin:0;gap:4px">
+        <div id="heroChart"></div>
+        <figcaption class="cap">Ein Beispiel: So sieht Ihr Profil am Ende aus.</figcaption>
+      </figure>
     </div>
-    <div class="drivers" id="chips"></div>
+    <div class="facts">
+      <div class="fact"><b>50</b>kurze Aussagen</div>
+      <div class="fact"><b>8 Min.</b>Zeit, etwa</div>
+      <div class="fact"><b>100 %</b>bleibt am Handy</div>
+    </div>
+    <div class="row">
+      <button class="btn" id="go">Test starten</button>
+      <button class="btn ghost" id="resume" hidden>Weitermachen</button>
+    </div>
+    <div class="card stack" id="lastCard" hidden></div>
+    <div class="card stack saved" id="savedCard" hidden></div>
+    <div class="stack">
+      <h2>Die fünf Antreiber</h2>
+      <p class="hint">Tippen Sie einen an, um mehr zu erfahren.</p>
+      <div class="drivers" id="chips"></div>
+      <div class="card stack info" id="driverInfo" hidden aria-live="polite"></div>
+    </div>
     <div class="card stack">
       <h3>So geht's</h3>
       <p>Sie lesen 50 kurze Aussagen. Bei jeder wählen Sie, wie gut sie zu Ihnen passt – von 1 bis 5. Antworten Sie aus dem Bauch. Denken Sie an Ihren Alltag, nicht an Ihr Wunschbild.</p>
       <p class="hint">Ihre Antworten bleiben auf diesem Handy. Nichts wird gesendet.</p>
     </div>
-    <div class="row">
-      <button class="btn" id="go">Test starten</button>
-      <button class="btn ghost" id="resume" hidden>Weitermachen</button>
-      <button class="btn ghost" id="last" hidden>Letztes Ergebnis</button>
+    <div class="card stack">
+      <h3>Werkzeuge für den Alltag</h3>
+      <p>Auch ohne Test: Prüfen Sie, was Sie gerade antreibt. Ziehen Sie eine Erlaubnis-Karte. Oder üben Sie sieben Tage lang.</p>
+      <div class="row"><button class="btn ghost" data-tool="now">Werkzeuge öffnen</button></div>
     </div>
   </section>
 
@@ -144,6 +239,7 @@ details[open] summary::after{content:"–"}
         <button class="btn ghost small" id="back">Zurück</button>
       </div>
       <div class="progress"><i id="bar"></i></div>
+      <p class="hint" id="cheer"></p>
     </div>
     <p class="statement" id="statement"></p>
     <div class="scale" id="scale"></div>
@@ -152,18 +248,47 @@ details[open] summary::after{content:"–"}
   <!-- ERGEBNIS -->
   <section id="result" class="stack" style="gap:22px" hidden>
     <div class="stack">
-      <span class="eyebrow">Ihr Ergebnis</span>
+      <span class="eyebrow" id="resultWhen">Ihr Ergebnis</span>
       <h1 id="headline"></h1>
       <p id="summary"></p>
     </div>
     <div class="card stack">
-      <div class="bars" id="bars"></div>
-      <p class="legend">Punkte je Antreiber: 10 bis 50. Ab 38 Punkten (Strich) gilt ein Antreiber als stark.</p>
+      <div class="row" style="justify-content:space-between">
+        <h2>Ihr Profil</h2>
+        <div class="seg" role="group" aria-label="Darstellung">
+          <button id="viewRadar" aria-pressed="true">Fünfeck</button>
+          <button id="viewBars" aria-pressed="false">Balken</button>
+        </div>
+      </div>
+      <div id="radarBox" class="stack" style="gap:6px">
+        <div id="radar"></div>
+        <p class="tip" id="radarTip" aria-live="polite">Tippen Sie auf einen Punkt.</p>
+      </div>
+      <div class="bars" id="bars" hidden></div>
+      <label class="chk" id="cmpRow" hidden><input type="checkbox" id="cmp"><span id="cmpLabel">Mit dem letzten Mal vergleichen</span></label>
+      <p class="legend" id="legend"></p>
     </div>
     <div class="card stack" id="details"></div>
+    <div class="card stack">
+      <h2>Gleich ausprobieren</h2>
+      <p>Wissen allein ändert wenig. Kleine Schritte im Alltag schon.</p>
+      <div class="stack" style="gap:8px">
+        <button class="btn" data-tool="card">Erlaubnis-Karte ziehen</button>
+        <button class="btn ghost" id="planFromResult" data-tool="plan">7-Tage-Übung starten</button>
+        <button class="btn ghost" data-tool="now">Was treibt mich gerade an?</button>
+      </div>
+    </div>
+    <div class="card stack" id="histCard" hidden>
+      <h2>Ihr Verlauf</h2>
+      <p class="hint">Jeder Punkt ist ein Test. Der kräftigste Punkt ist der gezeigte Test. Der Strich zeigt 38 Punkte.</p>
+      <div class="stack" id="strips" style="gap:12px"></div>
+      <div class="axis" aria-hidden="true"><span>10</span><span>30</span><span>50</span></div>
+      <h3 style="margin-top:8px">Frühere Tests</h3>
+      <div class="hist" id="histList"></div>
+    </div>
     <div class="row">
       <button class="btn" id="share">Ergebnis teilen</button>
-      <button class="btn ghost" id="again">Neu beginnen</button>
+      <button class="btn ghost" id="again">Zur Startseite</button>
       <span class="hint" id="copied" hidden>In die Zwischenablage kopiert.</span>
     </div>
     <div class="card stack partner">
@@ -177,6 +302,43 @@ details[open] summary::after{content:"–"}
       <p>Grundlage: Kahler T. (1975): Drivers – the key to the process of scripts. Transactional Analysis Journal 5(3), 280–284. <a href="https://doi.org/10.1177/036215377500500318" target="_blank" rel="noopener">doi.org/10.1177/036215377500500318</a>. Die Aussagen in diesem Test sind neu formuliert.</p>
     </div>
   </section>
+
+  <!-- WERKZEUGE -->
+  <section id="tools" class="stack" style="gap:20px" hidden>
+    <div class="row" style="justify-content:space-between">
+      <span class="eyebrow">Werkzeuge</span>
+      <button class="btn ghost small" id="toolsBack">Zurück</button>
+    </div>
+    <h1>Für den Alltag</h1>
+    <div class="tabs" role="tablist" aria-label="Werkzeuge">
+      <button class="tab" role="tab" id="tab-now" aria-controls="p-now" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Gerade jetzt</button>
+      <button class="tab" role="tab" id="tab-card" aria-controls="p-card" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 9h6M9 13h6"/></svg>Erlaubnis-Karte</button>
+      <button class="tab" role="tab" id="tab-plan" aria-controls="p-plan" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>7-Tage-Übung</button>
+    </div>
+
+    <div class="stack" id="p-now" role="tabpanel" aria-labelledby="tab-now" style="gap:16px">
+      <p>Was passiert gerade in Ihnen? Tippen Sie alles an, was jetzt passt.</p>
+      <div class="togs" id="togs"></div>
+      <div class="card stack" id="nowOut" aria-live="polite"></div>
+    </div>
+
+    <div class="stack" id="p-card" role="tabpanel" aria-labelledby="tab-card" style="gap:16px" hidden>
+      <p>Eine Erlaubnis ist ein freundlicher Satz an sich selbst. Er macht dem Antreiber Platz. Lesen Sie ihn langsam, gern zweimal.</p>
+      <div class="pcard" id="pcard"></div>
+      <div class="row">
+        <button class="btn" id="draw">Neue Karte ziehen</button>
+        <button class="btn ghost" id="keep">Als meinen Satz merken</button>
+      </div>
+      <p class="hint" id="cardHint"></p>
+    </div>
+
+    <div class="stack" id="p-plan" role="tabpanel" aria-labelledby="tab-plan" style="gap:16px" hidden>
+      <p>Wählen Sie einen Antreiber. Machen Sie die kleine Übung jeden Tag einmal. Tippen Sie dann auf den Tag.</p>
+      <div class="pills" id="planPills" role="group" aria-label="Antreiber wählen"></div>
+      <div class="card stack saved" id="planCard"></div>
+    </div>
+    <p class="hint">Die Werkzeuge helfen beim Nachdenken. Sie sind keine Diagnose und keine Behandlung.</p>
+  </section>
   <p class="ver" id="ver"></p>
 </main>
 <div class="update" id="update" hidden><div class="in"><p id="updateText"></p><button class="btn" id="updateBtn"></button><button class="btn ghost small" id="updateLater">Später</button></div></div>
@@ -184,35 +346,50 @@ details[open] summary::after{content:"–"}
 <script src="capacitor-core.js"></script>
 <script>
 const D = {
-  perfekt:{name:"Sei perfekt!",color:"--d-perfekt",short:"Alles muss stimmen.",
+  perfekt:{name:"Sei perfekt!",lines:["Sei perfekt!"],color:"--d-perfekt",short:"Alles muss stimmen.",
     strength:"Sie arbeiten genau, gründlich und verlässlich. Auf Ihre Ergebnisse kann man bauen.",
     shadow:"Sie werden schwer fertig. Kleine Fehler kosten Sie viel Kraft. Lob kommt kaum an.",
     stress:"Sie erklären zu viel, prüfen alles mehrmals und kritisieren sich selbst.",
     permit:"Ich bin gut genug, so wie ich bin.",
+    perms:["Ich bin gut genug, so wie ich bin.","Fehler gehören zum Lernen dazu.","Fertig ist besser als perfekt."],
+    signs:["Ich prüfe etwas zum dritten Mal.","Ein kleiner Fehler ärgert mich sehr."],
+    now:"Sagen Sie leise: „Das ist gut genug.“ Dann geben Sie es ab.",
     tip:"Legen Sie vorher fest, wann etwas fertig ist. Zum Beispiel: „80 Prozent reichen hier.“"},
-  stark:{name:"Sei stark!",color:"--d-stark",short:"Zeig keine Schwäche.",
+  stark:{name:"Sei stark!",lines:["Sei stark!"],color:"--d-stark",short:"Zeig keine Schwäche.",
     strength:"Sie bleiben in Krisen ruhig und belastbar. Andere fühlen sich bei Ihnen sicher.",
     shadow:"Sie tragen Lasten allein. Gefühle und Grenzen bemerken Sie oft erst spät.",
     stress:"Sie ziehen sich zurück, wirken kühl und lehnen Hilfe ab.",
     permit:"Ich darf Gefühle zeigen und um Hilfe bitten.",
+    perms:["Ich darf Gefühle zeigen und um Hilfe bitten.","Ich darf auch schwach sein.","Gemeinsam trägt es sich leichter."],
+    signs:["Ich beiße die Zähne zusammen.","Ich will niemanden um Hilfe bitten."],
+    now:"Atmen Sie dreimal langsam aus. Schreiben Sie dann einem lieben Menschen, wie es Ihnen wirklich geht.",
     tip:"Sagen Sie einmal pro Woche jemandem ehrlich, wie es Ihnen geht."},
-  beeil:{name:"Beeil dich!",color:"--d-beeil",short:"Schnell, schnell.",
+  beeil:{name:"Beeil dich!",lines:["Beeil dich!"],color:"--d-beeil",short:"Schnell, schnell.",
     strength:"Sie sind schnell, flexibel und schaffen viel. Unter Zeitdruck behalten Sie den Überblick.",
     shadow:"Sie hetzen von Termin zu Termin. Erholung und Genuss kommen zu kurz.",
     stress:"Sie unterbrechen andere, machen Flüchtigkeitsfehler und werden ungeduldig.",
     permit:"Ich darf mir Zeit lassen.",
+    perms:["Ich darf mir Zeit lassen.","Eins nach dem anderen.","Pausen gehören dazu."],
+    signs:["Ich fühle mich innerlich gehetzt.","Ich mache mehrere Dinge gleichzeitig."],
+    now:"Legen Sie kurz alles weg. Atmen Sie fünfmal ruhig ein und aus. Dann nur eine Sache.",
     tip:"Planen Sie Puffer zwischen Terminen ein. Machen Sie eine Sache nach der anderen."},
-  streng:{name:"Streng dich an!",color:"--d-streng",short:"Nur Mühe zählt.",
+  streng:{name:"Streng dich an!",lines:["Streng dich","an!"],color:"--d-streng",short:"Nur Mühe zählt.",
     strength:"Sie sind ausdauernd und geben nicht schnell auf. Schwierige Aufgaben schrecken Sie nicht.",
     shadow:"Sie machen Dinge schwerer als nötig. Vieles wird begonnen, aber nicht beendet.",
     stress:"Sie mühen sich ab, statt einfache Wege zu nutzen. Trotzdem fühlen Sie sich nie fertig.",
     permit:"Ich darf es mir leicht machen.",
+    perms:["Ich darf es mir leicht machen.","Es darf auch einfach gehen.","Ich darf mich über Fertiges freuen."],
+    signs:["Ich plage mich, obwohl es leichter ginge.","Ich fühle mich nie richtig fertig."],
+    now:"Fragen Sie sich: Was ist der einfachste nächste Schritt? Machen Sie nur diesen.",
     tip:"Fragen Sie bei jeder Aufgabe: „Wie geht es einfacher?“ Und freuen Sie sich über alles, was fertig ist."},
-  recht:{name:"Mach es allen recht!",color:"--d-recht",short:"Sei lieb und gefällig.",
+  recht:{name:"Mach es allen recht!",lines:["Mach es","allen recht!"],color:"--d-recht",short:"Sei lieb und gefällig.",
     strength:"Sie sind einfühlsam, hilfsbereit und gut im Team. Sie spüren, was andere brauchen.",
     shadow:"Eigene Wünsche gehen unter. Nein sagen fällt schwer. Kritik trifft tief.",
     stress:"Sie sagen Ja, obwohl Sie Nein meinen. Danach fühlen Sie sich ausgenutzt.",
     permit:"Ich darf auf mich selbst achten.",
+    perms:["Ich darf auf mich selbst achten.","Ich darf Nein sagen.","Ich bin wertvoll, auch wenn mich nicht alle mögen."],
+    signs:["Ich habe Ja gesagt, obwohl ich Nein meinte.","Ich sorge mich, was andere über mich denken."],
+    now:"Sagen Sie: „Ich überlege es mir kurz.“ Fragen Sie sich dann: Was will ich selbst?",
     tip:"Sagen Sie bei Bitten zuerst: „Ich gebe dir später Bescheid.“ Dann prüfen Sie in Ruhe."}
 };
 const ITEMS = {
@@ -235,20 +412,115 @@ const Share = isNative ? cap.registerPlugin("Share") : null;
 const App = isNative ? cap.registerPlugin("App") : null;
 
 const $ = id => document.getElementById(id);
-let answers = new Array(Q.length).fill(0), idx = 0, view = "start";
-const KEY = "antreiber-v1";
-const store = { get(){ try{ return JSON.parse(localStorage.getItem(KEY)||"null"); }catch(e){ return null; } },
+const esc = t => String(t).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let answers = new Array(Q.length).fill(0), idx = 0, view = "start", prevView = "start";
+function mkStore(KEY, fallback){ return {
+  get(){ try{ const v = JSON.parse(localStorage.getItem(KEY)||"null"); return v===null ? fallback : v; }catch(e){ return fallback; } },
   set(v){ try{ localStorage.setItem(KEY, JSON.stringify(v)); }catch(e){} },
-  clear(){ try{ localStorage.removeItem(KEY); }catch(e){} } };
+  clear(){ try{ localStorage.removeItem(KEY); }catch(e){} } }; }
+const store = mkStore("antreiber-v1", null);      // laufender Test (Antworten)
+const hist = mkStore("antreiber-hist", []);       // fertige Tests: [{t, s}]
+const saved = mkStore("antreiber-satz", null);    // gemerkter Erlaubnis-Satz {k, t}
+const plan = mkStore("antreiber-plan", {k:null, days:{}});  // 7-Tage-Übung
 
-$("chips").innerHTML = KEYS.map(k=>`<div class="chip"><span class="dot" style="background:var(${D[k].color})"></span><div><b>${D[k].name}</b><br><span class="muted" style="font-size:14px">${D[k].short}</span></div></div>`).join("");
+function sortByScore(s){ return [...KEYS].sort((a,b)=>s[b]-s[a]); }
+function level(v){ return v>=STRONG?"stark":v>=30?"deutlich":v>=22?"mittel":"schwach"; }
+function fmtDate(t){ if(!t) return "früher"; try{ return new Date(t).toLocaleDateString("de-AT",{day:"numeric",month:"short",year:"numeric"}); }catch(e){ return ""; } }
+function lastProfile(){ const h = hist.get(); return h.length ? h[h.length-1].s : null; }
 
-function show(id){ view=id; ["start","quiz","result"].forEach(s=>$(s).hidden = s!==id); window.scrollTo(0,0); }
+/* ---- Fünfeck (Netzdiagramm) ----
+   Jeder Antreiber hat eine eigene Achse, außen = 50 Punkte, Mitte = 10.
+   Gestrichelte Linie = 38 Punkte (ab hier „stark“). */
+const R = 90;
+function pos(i, v){ const a = (-90 + i*72) * Math.PI/180, r = (Math.min(50,Math.max(10,v))-10)/40*R; return [r*Math.cos(a), r*Math.sin(a)]; }
+const f1 = n => n.toFixed(1);
+function poly(vals){ return KEYS.map((k,i)=>pos(i, vals[k]).map(f1).join(",")).join(" "); }
+function ring(v){ const o={}; KEYS.forEach(k=>o[k]=v); return poly(o); }
+function radarSVG(s, opt={}){
+  const {prev=null, labels="score", interactive=false, mini=false} = opt;
+  const grid = [20,30,40,50].map(v=>`<polygon points="${ring(v)}" fill="none" stroke="var(--line)" stroke-width="${v===50?1.5:1}"/>`).join("")
+    + KEYS.map((k,i)=>{ const [x,y]=pos(i,50); return `<line x1="0" y1="0" x2="${f1(x)}" y2="${f1(y)}" stroke="var(--line)"/>`; }).join("")
+    + (mini ? "" : `<polygon points="${ring(STRONG)}" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="5 4"/>`);
+  const old = prev ? `<polygon points="${poly(prev)}" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="2 4" stroke-linecap="round"/>` : "";
+  const shape = `<polygon points="${poly(s)}" fill="var(--accent)" fill-opacity=".16" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>`;
+  const pts = KEYS.map((k,i)=>{
+    const [x,y] = pos(i, s[k]);
+    const dot = `<circle class="ring" cx="${f1(x)}" cy="${f1(y)}" r="${mini?5:7}" fill="var(${D[k].color})" stroke="var(--surface-solid)" stroke-width="2"/>`;
+    return interactive
+      ? `<g class="pt" data-k="${k}" tabindex="0" role="button" aria-label="${esc(D[k].name)}: ${s[k]} Punkte"><circle cx="${f1(x)}" cy="${f1(y)}" r="18" fill="transparent"/>${dot}</g>`
+      : dot;
+  }).join("");
+  let txt = "";
+  if (labels){
+    txt = KEYS.map((k,i)=>{
+      const a = (-90 + i*72) * Math.PI/180, vx = (R+12)*Math.cos(a), vy = (R+12)*Math.sin(a);
+      const lines = D[k].lines.map(l=>esc(l)), n = lines.length + (labels==="score"?1:0), lh = 17;
+      const anchor = Math.abs(vx) < 5 ? "middle" : vx > 0 ? "start" : "end";
+      let y0 = i===0 ? vy - n*lh + 10 : (i===2||i===3) ? vy + 14 : vy - n*lh/2 + 12;
+      const tsp = lines.map((l,j)=>`<tspan x="${f1(vx)}" ${j?`dy="${lh}"`:""}>${l}</tspan>`).join("")
+        + (labels==="score" ? `<tspan class="sc" x="${f1(vx)}" dy="${lh}">${s[k]} P</tspan>` : "");
+      return `<text x="${f1(vx)}" y="${f1(y0)}" text-anchor="${anchor}">${tsp}</text>`;
+    }).join("");
+  }
+  const vb = mini ? "-96 -96 192 192" : "-190 -140 380 280";
+  return `<svg class="${mini?"":"radar"}" viewBox="${vb}" role="img" aria-label="Profil als Fünfeck: ${KEYS.map(k=>`${esc(D[k].name)} ${s[k]} Punkte`).join(", ")}">${grid}${old}${shape}${pts}${txt}</svg>`;
+}
 
+/* ---- Startseite ---- */
+$("heroChart").innerHTML = radarSVG({perfekt:41,stark:29,beeil:45,streng:25,recht:36}, {labels:"name"});
+$("chips").innerHTML = KEYS.map(k=>`<button class="chip" data-k="${k}" aria-expanded="false" aria-controls="driverInfo"><span class="dot" style="background:var(${D[k].color})"></span><span><b>${D[k].name}</b><br><span class="muted" style="font-size:14px">${D[k].short}</span></span></button>`).join("");
+$("chips").addEventListener("click", e=>{
+  const b = e.target.closest(".chip"); if(!b) return;
+  const open = b.getAttribute("aria-expanded")==="true";
+  $("chips").querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-expanded","false"));
+  if (open){ $("driverInfo").hidden = true; return; }
+  b.setAttribute("aria-expanded","true");
+  const d = D[b.dataset.k];
+  $("driverInfo").style.borderLeftColor = `var(${d.color})`;
+  $("driverInfo").innerHTML = `<h3>${d.name}</h3><p><b>Innerer Satz:</b> „${d.short}“</p><p><b>Die gute Seite:</b> ${d.strength}</p><p><b>Die Kehrseite:</b> ${d.shadow}</p><p><b>Erlaubnis:</b> <span class="permit" style="font-size:18px">„${d.permit}“</span></p>`;
+  $("driverInfo").hidden = false;
+});
+
+function refreshStart(){
+  const s = store.get();
+  const ok = s && Array.isArray(s.answers) && s.answers.length===Q.length && s.answers.some(Boolean);
+  $("resume").hidden = !(ok && !s.done);
+  $("go").textContent = (ok && !s.done) ? "Neu starten" : hist.get().length ? "Test wiederholen" : "Test starten";
+  const h = hist.get();
+  if (h.length){
+    const last = h[h.length-1], top = sortByScore(last.s)[0];
+    $("lastCard").innerHTML = `<div class="mini">${radarSVG(last.s,{labels:false,mini:true})}<div class="stack" style="gap:6px">
+      <span class="eyebrow">Ihr letztes Ergebnis</span><p><b>${D[top].name}</b> war am stärksten (${last.s[top]} Punkte).</p>
+      <p class="hint">${fmtDate(last.t)}${h.length>1?` · ${h.length} Tests gespeichert`:""}</p>
+      <div><button class="linkish" id="openLast">Ergebnis ansehen</button></div></div></div>`;
+    $("openLast").onclick = ()=>showResult(h.length-1);
+  }
+  $("lastCard").hidden = !h.length;
+  const sv = saved.get(), p = plan.get(), pd = p.k ? (p.days[p.k]||[]) : [];
+  const done = pd.filter(Boolean).length;
+  if (sv || p.k){
+    const k = sv ? sv.k : p.k;
+    $("savedCard").style.setProperty("--pc", `var(${D[k].color})`);
+    $("savedCard").innerHTML = `<span class="eyebrow">Für Sie gemerkt</span>`
+      + (sv ? `<p class="big">„${esc(sv.t)}“</p>` : "")
+      + (p.k ? `<p>7-Tage-Übung zu <b>${D[p.k].name}</b>: ${done} von 7 Tagen ✓</p>` : "")
+      + `<div class="row">${sv?`<button class="linkish" data-tool="card">Andere Karte ziehen</button>`:""}${p.k?`<button class="linkish" data-tool="plan">Zur Übung</button>`:""}</div>`;
+  }
+  $("savedCard").hidden = !(sv || p.k);
+}
+
+/* ---- Fragen ---- */
+function show(id){ view=id; ["start","quiz","result","tools"].forEach(s=>$(s).hidden = s!==id); window.scrollTo(0,0); }
+function cheer(i){
+  return i<1 ? "Antworten Sie aus dem Bauch. Es gibt kein Richtig oder Falsch."
+    : i<10 ? "Gut so. Einfach weiter." : i<25 ? "Sie sind gut unterwegs." : i<35 ? "Halbzeit geschafft!"
+    : i<45 ? "Schon mehr als zwei Drittel." : i<49 ? "Fast fertig – nur noch wenige." : "Die letzte Aussage.";
+}
 function renderQ(){
   const q = Q[idx];
   $("count").textContent = `${idx+1} / ${Q.length}`;
   $("bar").style.width = `${(idx/Q.length)*100}%`;
+  $("cheer").textContent = cheer(idx);
   $("statement").textContent = q.t;
   $("scale").innerHTML = SCALE.map((s,i)=>`<button class="opt" data-v="${i+1}" aria-pressed="${answers[idx]===i+1}"><span class="n">${i+1}</span>${s}</button>`).join("");
 }
@@ -265,26 +537,31 @@ document.addEventListener("keydown", e=>{ if(view!=="quiz") return; const n=+e.k
 $("back").onclick = goBack;
 
 function scores(){ const s={}; KEYS.forEach(k=>s[k]=0); Q.forEach((q,i)=>s[q.k]+=answers[i]); return s; }
-function level(v){ return v>=STRONG?"stark":v>=30?"deutlich":v>=22?"mittel":"schwach"; }
 
 function finish(){
   const s = scores(); store.set({answers,idx:Q.length,done:true});
-  const sorted = [...KEYS].sort((a,b)=>s[b]-s[a]);
-  const top = sorted.filter(k=>s[k]>=STRONG);
-  const lead = top.length ? top : [sorted[0]];
+  const h = hist.get(); h.push({t:Date.now(), s}); while(h.length>12) h.shift(); hist.set(h);
+  showResult(h.length-1);
+}
+
+/* ---- Ergebnis ---- */
+let cur = null, curPrev = null, curIdx = 0, mode = "radar";
+function showResult(i){
+  const h = hist.get(); if(!h[i]) return;
+  curIdx = i; cur = h[i].s; curPrev = i>0 ? h[i-1] : null;
+  const s = cur, sorted = sortByScore(s);
+  const top = sorted.filter(k=>s[k]>=STRONG), lead = top.length ? top : [sorted[0]];
+  $("resultWhen").textContent = i===h.length-1 ? "Ihr Ergebnis" : `Ergebnis vom ${fmtDate(h[i].t)}`;
   $("headline").textContent = lead.length===1 ? `Ihr stärkster Antreiber: ${D[lead[0]].name}` : `Ihre stärksten Antreiber: ${lead.map(k=>D[k].name).join(" und ")}`;
   $("summary").textContent = top.length
     ? `Diese ${top.length===1?"innere Stimme ist":"inneren Stimmen sind"} bei Ihnen deutlich. Das ist eine Stärke. Unter Stress ist es ein Warnzeichen.`
     : "Kein Antreiber ist bei Ihnen sehr stark. Am ehesten zeigt sich der oben genannte. Das spricht für viel innere Freiheit.";
-  const markLeft = (STRONG-10)/40*100;
-  $("bars").innerHTML = sorted.map(k=>{
-    const pct = (s[k]-10)/40*100;
-    return `<div><div class="bar-head"><b>${D[k].name}</b><span class="score">${s[k]} P · ${level(s[k])}</span></div>
-      <div class="track"><div class="fill" style="width:${Math.max(pct,2)}%;background:var(${D[k].color})"></div><span class="mark" style="left:${markLeft}%"></span></div></div>`;
-  }).join("");
-  $("details").innerHTML = `<h2>Was bedeutet das?</h2>` + sorted.map((k,i)=>{
+  $("cmpRow").hidden = !curPrev; $("cmp").checked = false;
+  if (curPrev) $("cmpLabel").textContent = `Mit dem Test vom ${fmtDate(curPrev.t)} vergleichen`;
+  drawProfile();
+  $("details").innerHTML = `<h2>Was bedeutet das?</h2>` + sorted.map((k,j)=>{
     const d=D[k], strong=s[k]>=STRONG;
-    return `<details ${i===0?"open":""}><summary><span class="dot" style="background:var(${d.color})"></span><h3>${d.name}${strong?`<span class="pill" style="color:var(${d.color})">stark</span>`:""}</h3></summary>
+    return `<details ${j===0?"open":""}><summary><span class="dot" style="background:var(${d.color})"></span><h3>${d.name}${strong?`<span class="pill">stark</span>`:""}</h3></summary>
       <dl class="detail">
         <dt>Ihre Stärke</dt><dd>${d.strength}</dd>
         <dt>Die Kehrseite</dt><dd>${d.shadow}</dd>
@@ -293,12 +570,54 @@ function finish(){
         <dt>Kleine Übung</dt><dd>${d.tip}</dd>
       </dl></details>`;
   }).join("");
+  $("planFromResult").dataset.k = sorted[0];
+  $("planFromResult").textContent = `7-Tage-Übung zu „${D[sorted[0]].name}“`;
+  drawHistory();
   show("result");
 }
+function drawProfile(){
+  const s = cur, prev = $("cmp").checked && curPrev ? curPrev.s : null;
+  $("radarBox").hidden = mode!=="radar"; $("bars").hidden = mode!=="bars";
+  $("viewRadar").setAttribute("aria-pressed", mode==="radar"); $("viewBars").setAttribute("aria-pressed", mode==="bars");
+  $("radar").innerHTML = radarSVG(s, {prev, interactive:true});
+  $("radarTip").textContent = "Tippen Sie auf einen Punkt.";
+  const markLeft = (STRONG-10)/40*100;
+  $("bars").innerHTML = sortByScore(s).map(k=>{
+    const pct = (s[k]-10)/40*100, d = prev ? s[k]-prev[k] : null;
+    const ghost = prev ? `<span class="mark" style="left:${(prev[k]-10)/40*100}%;background:var(--fg);opacity:.45;width:3px;border-radius:2px" title="Letztes Mal: ${prev[k]} P"></span>` : "";
+    return `<div><div class="bar-head"><b>${D[k].name}</b><span class="score">${s[k]} P · ${level(s[k])}${d!==null?`<span class="delta">${d>0?"+":""}${d===0?"±0":d}</span>`:""}</span></div>
+      <div class="track"><div class="fill" style="width:${Math.max(pct,2)}%;background:var(${D[k].color})"></div><span class="mark" style="left:${markLeft}%"></span>${ghost}</div></div>`;
+  }).join("");
+  $("legend").textContent = (mode==="radar"
+    ? "Je weiter außen ein Punkt liegt, desto stärker der Antreiber (10 bis 50 Punkte). Die gestrichelte Linie zeigt 38 Punkte: ab hier gilt ein Antreiber als stark."
+    : "Punkte je Antreiber: 10 bis 50. Ab 38 Punkten (Strich) gilt ein Antreiber als stark.")
+    + (prev ? (mode==="radar" ? " Die gepunktete Linie zeigt das letzte Mal." : " Der dunkle Strich und die Zahl in Klammern zeigen das letzte Mal.") : "");
+}
+$("viewRadar").onclick = ()=>{ mode="radar"; drawProfile(); };
+$("viewBars").onclick = ()=>{ mode="bars"; drawProfile(); };
+$("cmp").onchange = drawProfile;
+function pointInfo(el){
+  const k = el.dataset.k, v = cur[k], p = $("cmp").checked && curPrev ? curPrev.s[k] : null;
+  $("radarTip").innerHTML = `<b>${D[k].name}</b> · ${v} Punkte · ${level(v)}` + (p!==null ? ` <span class="muted">(letztes Mal ${p})</span>` : "");
+}
+$("radar").addEventListener("click", e=>{ const g=e.target.closest(".pt"); if(g) pointInfo(g); });
+$("radar").addEventListener("keydown", e=>{ const g=e.target.closest(".pt"); if(g && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); pointInfo(g); } });
+
+function drawHistory(){
+  const h = hist.get();
+  $("histCard").hidden = h.length < 2;
+  if (h.length < 2) return;
+  const x = v => (v-10)/40*100;
+  $("strips").innerHTML = KEYS.map(k=>`<div><div class="bar-head"><b style="font-size:15px">${D[k].name}</b><span class="score">${h.map(e=>e.s[k]).join(" → ")}</span></div>
+    <div class="strip"><span class="ln"></span><span class="th" style="left:${x(STRONG)}%"></span>${h.map((e,j)=>`<span class="dt" title="${fmtDate(e.t)}: ${e.s[k]} P" style="left:${x(e.s[k])}%;background:var(${D[k].color});opacity:${j===curIdx?1:.3};z-index:${j===curIdx?2:1}"></span>`).join("")}</div></div>`).join("");
+  $("histList").innerHTML = h.map((e,j)=>({e,j})).reverse().map(({e,j})=>{ const t=sortByScore(e.s)[0];
+    return `<button data-i="${j}" aria-current="${j===curIdx}"><span><b>${D[t].name}</b> <span class="muted">${e.s[t]} P</span></span><span class="when">${fmtDate(e.t)}</span></button>`; }).join("");
+}
+$("histList").addEventListener("click", e=>{ const b=e.target.closest("button"); if(b) showResult(+b.dataset.i); });
 
 function resultText(){
-  const s=scores();
-  return "Mein Antreiber-Profil\n" + [...KEYS].sort((a,b)=>s[b]-s[a]).map(k=>`${D[k].name}: ${s[k]} Punkte (${level(s[k])})`).join("\n");
+  const s=cur;
+  return "Mein Antreiber-Profil\n" + sortByScore(s).map(k=>`${D[k].name}: ${s[k]} Punkte (${level(s[k])})`).join("\n");
 }
 $("share").onclick = async ()=>{
   const text = resultText();
@@ -310,15 +629,106 @@ $("share").onclick = async ()=>{
 $("go").onclick = ()=>{ answers=new Array(Q.length).fill(0); idx=0; store.clear(); show("quiz"); renderQ(); };
 $("again").onclick = ()=>{ show("start"); refreshStart(); };
 $("resume").onclick = ()=>{ const s=store.get(); answers=s.answers; idx=Math.min(s.idx,Q.length-1); show("quiz"); renderQ(); };
-$("last").onclick = ()=>{ const s=store.get(); answers=s.answers; finish(); };
 
-function refreshStart(){
-  const s = store.get();
-  const ok = s && Array.isArray(s.answers) && s.answers.length===Q.length && s.answers.some(Boolean);
-  $("resume").hidden = !(ok && !s.done);
-  $("last").hidden = !(ok && s.done);
-  $("go").textContent = ok ? "Neu starten" : "Test starten";
+/* ---- Werkzeuge ---- */
+function openTools(tab, k){
+  if (view!=="tools") prevView = view;
+  if (tab==="plan" && k){ const p = plan.get(); p.k = k; plan.set(p); }
+  show("tools"); selectTab(tab||"now");
 }
+function closeTools(){ if (prevView==="result" && cur) show("result"); else { show("start"); refreshStart(); } }
+$("toolsBack").onclick = closeTools;
+document.addEventListener("click", e=>{ const b = e.target.closest("[data-tool]"); if(b) openTools(b.dataset.tool, b.dataset.k); });
+const TABS = ["now","card","plan"];
+function selectTab(t){
+  TABS.forEach(x=>{ $("tab-"+x).setAttribute("aria-selected", x===t); $("tab-"+x).tabIndex = x===t?0:-1; $("p-"+x).hidden = x!==t; });
+  if (t==="now") drawNow(); if (t==="card") drawCard(false); if (t==="plan") drawPlan();
+}
+TABS.forEach((t,i)=>{
+  $("tab-"+t).onclick = ()=>selectTab(t);
+  $("tab-"+t).onkeydown = e=>{ const d = e.key==="ArrowRight"?1:e.key==="ArrowLeft"?-1:0; if(d){ const n=TABS[(i+d+3)%3]; selectTab(n); $("tab-"+n).focus(); } };
+});
+
+// 1) Gerade jetzt: Stress-Zeichen antippen → welcher Antreiber spricht?
+const SIGNS = []; [0,1].forEach(j=>KEYS.forEach(k=>SIGNS.push({k,t:D[k].signs[j]})));
+const picked = new Set();
+$("togs").innerHTML = SIGNS.map((x,i)=>`<button class="tog" data-i="${i}" aria-pressed="false"><span class="box" aria-hidden="true"></span>${x.t}</button>`).join("");
+$("togs").addEventListener("click", e=>{
+  const b = e.target.closest(".tog"); if(!b) return;
+  const i = +b.dataset.i, on = !picked.has(i);
+  on ? picked.add(i) : picked.delete(i);
+  b.setAttribute("aria-pressed", on); b.querySelector(".box").textContent = on ? "✓" : "";
+  drawNow();
+});
+function drawNow(){
+  const c = {}; KEYS.forEach(k=>c[k]=0); picked.forEach(i=>c[SIGNS[i].k]++);
+  if (!picked.size){ $("nowOut").innerHTML = `<p class="muted">Noch nichts gewählt. Sobald Sie etwas antippen, sehen Sie hier, welche innere Stimme gerade laut ist – und was jetzt hilft.</p>`; return; }
+  const prof = lastProfile();
+  const order = [...KEYS].sort((a,b)=> c[b]-c[a] || (prof ? prof[b]-prof[a] : 0));
+  const k = order[0], d = D[k];
+  $("nowOut").innerHTML = `<span class="eyebrow">Gerade laut</span><h3>${d.name}</h3>
+    <div class="stack" style="gap:6px">${KEYS.filter(x=>c[x]).sort((a,b)=>c[b]-c[a]).map(x=>`<div class="mbar"><span>${D[x].name}</span><span class="t"><i style="width:${c[x]*50}%;background:var(${D[x].color})"></i></span><span class="n">${c[x]}</span></div>`).join("")}</div>
+    <p><b>Für die nächste Minute:</b> ${d.now}</p>
+    <p class="permit" style="font-size:19px">„${d.permit}“</p>
+    <div class="row"><button class="btn ghost small" id="nowReset">Alles abwählen</button><button class="btn ghost small" data-tool="card" data-pick="${k}">Passende Karte ziehen</button></div>`;
+  $("nowReset").onclick = ()=>{ picked.clear(); $("togs").querySelectorAll(".tog").forEach(b=>{ b.setAttribute("aria-pressed","false"); b.querySelector(".box").textContent=""; }); drawNow(); };
+  $("nowOut").querySelector("[data-pick]").addEventListener("click", ()=>{ cardFor = k; });
+}
+
+// 2) Erlaubnis-Karte: zufällig, stärkere Antreiber kommen öfter dran
+const CARDS = []; KEYS.forEach(k=>D[k].perms.forEach(t=>CARDS.push({k,t})));
+let card = null, cardFor = null;
+function drawCard(fresh){
+  if (!card || fresh || cardFor){
+    const prof = lastProfile();
+    let pool = CARDS.filter(c=>c!==card && (!cardFor || c.k===cardFor));
+    const w = pool.map(c=> prof ? Math.max(1, prof[c.k]-20) : 1);
+    let r = Math.random()*w.reduce((a,b)=>a+b,0), j = 0;
+    while (j < pool.length-1 && (r -= w[j]) > 0) j++;
+    card = pool[j]; cardFor = null;
+  }
+  const d = D[card.k], el = $("pcard");
+  el.style.setProperty("--pc", `var(${d.color})`);
+  el.innerHTML = `<span class="eyebrow" style="color:var(--muted)">Erlaubnis gegen „${d.name}“</span><p class="big">„${esc(card.t)}“</p>`;
+  el.classList.remove("fresh"); if (fresh){ void el.offsetWidth; el.classList.add("fresh"); }
+  const sv = saved.get();
+  $("keep").textContent = sv && sv.t===card.t ? "Gemerkt ✓" : "Als meinen Satz merken";
+  $("cardHint").textContent = lastProfile() ? "Karten zu Ihren stärkeren Antreibern kommen öfter." : "Nach dem Test kommen Karten zu Ihren stärkeren Antreibern öfter.";
+}
+$("draw").onclick = ()=>drawCard(true);
+$("keep").onclick = ()=>{ saved.set(card); drawCard(false); $("cardHint").textContent = "Der Satz steht jetzt auf Ihrer Startseite."; };
+
+// 3) 7-Tage-Übung
+function drawPlan(){
+  const p = plan.get();
+  if (!p.k){ const prof = lastProfile(); p.k = prof ? sortByScore(prof)[0] : KEYS[0]; plan.set(p); }
+  const k = p.k, d = D[k], days = (p.days[k] || [0,0,0,0,0,0,0]), done = days.filter(Boolean).length;
+  $("planPills").innerHTML = KEYS.map(x=>`<button data-k="${x}" aria-pressed="${x===k}"><span class="dot" style="background:var(${D[x].color})"></span>${D[x].name}</button>`).join("");
+  const msg = done===7 ? "Geschafft – sieben Tage! Spüren Sie kurz nach: Was ist leichter geworden?"
+    : done>=4 ? "Mehr als die Hälfte. Schön dranbleiben – ohne Druck." : done ? "Ein guter Anfang." : "Tippen Sie auf einen Tag, wenn Sie die Übung gemacht haben.";
+  const card = $("planCard"); card.style.setProperty("--pc", `var(${d.color})`);
+  card.innerHTML = `<span class="eyebrow" style="color:var(--muted)">Ihre Übung gegen „${d.name}“</span>
+    <p class="big">${d.tip}</p>
+    <div class="days" role="group" aria-label="Tage">${days.map((v,i)=>`<button class="day" data-i="${i}" aria-pressed="${!!v}" aria-label="Tag ${i+1}${v?", erledigt":""}">${v?"✓":i+1}</button>`).join("")}</div>
+    <div class="progress"><i style="width:${done/7*100}%"></i></div>
+    <p><b>${done} von 7 Tagen.</b> ${msg}</p>
+    <p class="hint">Auch ein Tag Pause ist in Ordnung. Das hier ist keine Prüfung.</p>
+    ${done?`<div><button class="btn ghost small" id="planReset">Von vorne beginnen</button></div>`:""}`;
+  const pr = $("planReset"); if (pr) pr.onclick = ()=>{ const q = plan.get(); q.days[k] = [0,0,0,0,0,0,0]; plan.set(q); drawPlan(); };
+}
+$("planPills").addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b) return; const p=plan.get(); p.k=b.dataset.k; plan.set(p); drawPlan(); });
+$("planCard").addEventListener("click", e=>{
+  const b = e.target.closest(".day"); if(!b) return;
+  const p = plan.get(), arr = (p.days[p.k] || [0,0,0,0,0,0,0]).slice();
+  arr[+b.dataset.i] = arr[+b.dataset.i] ? 0 : 1; p.days[p.k] = arr; plan.set(p); drawPlan();
+  const nb = $("planCard").querySelector(`.day[data-i="${b.dataset.i}"]`); if (nb) nb.focus();
+});
+
+// Frühere Version der App: fertigen Test einmalig in den Verlauf übernehmen
+(function migrate(){
+  const s = store.get(), h = hist.get();
+  if (!h.length && s && s.done && Array.isArray(s.answers) && s.answers.length===Q.length){ answers = s.answers; hist.set([{t:0, s:scores()}]); }
+})();
 refreshStart();
 
 /* ---- Selbst-Aktualisierung (nur in der Android-App) ----
@@ -365,6 +775,7 @@ if (App){
   App.addListener("backButton", ()=>{
     if (view==="quiz") goBack();
     else if (view==="result"){ show("start"); refreshStart(); }
+    else if (view==="tools") closeTools();
     else App.exitApp();
   });
 }

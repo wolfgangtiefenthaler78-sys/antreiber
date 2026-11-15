@@ -5,7 +5,10 @@ Erkläre Änderungen in Alltagssprache, ohne Fachjargon, und sag am Ende, was er
 
 ## Was die App ist
 Selbsttest zu den fünf Antreibern der Transaktionsanalyse (Kahler 1975): 50 eigene Aussagen, Skala 1–5,
-Profil mit Balken (10–50 Punkte, ab 38 „stark“), je Antreiber Stärke, Kehrseite, Stress-Zeichen, Erlaubnis-Satz, Übung.
+Profil als Fünfeck oder Balken (10–50 Punkte, ab 38 „stark“), Vergleich mit dem letzten Test, Verlauf (bis 12 Tests),
+je Antreiber Stärke, Kehrseite, Stress-Zeichen, Erlaubnis-Satz, Übung.
+Werkzeuge: „Gerade jetzt“ (Stress-Zeichen antippen), Erlaubnis-Karte ziehen/merken, 7-Tage-Übung.
+Antreiber-Farben sind auf Farbschwäche geprüft (Blau, Grün, Orange, Violett, Magenta) – Namen stehen immer dabei.
 Android-App `at.mayoka.antreiber` (Capacitor 7), sanfter MAYOKA-Hintergrund, läuft ohne Internet, Antworten bleiben auf dem Gerät.
 **Völlig getrennt von Atemwetter** (eigenes Projekt, eigene Unterschrift, eigene Releases) – nichts aus Atemwetter verwenden oder verlinken.
 
