@@ -7,7 +7,7 @@ Erkläre Änderungen in Alltagssprache, ohne Fachjargon, und sag am Ende, was er
 Selbsttest zu den fünf Antreibern der Transaktionsanalyse (Kahler 1975): 50 eigene Aussagen, Skala 1–5,
 Profil als Fünfeck oder Balken (10–50 Punkte, ab 38 „stark“), Vergleich mit dem letzten Test, Verlauf (bis 12 Tests),
 je Antreiber Stärke, Kehrseite, Stress-Zeichen, Erlaubnis-Satz, Übung.
-Werkzeuge: „Gerade jetzt“ (Stress-Zeichen antippen), Erlaubnis-Karte ziehen/merken (40 Sätze, keine Wiederholung bis alle durch), 7-Tage-Übung.
+Werkzeuge: „Gerade jetzt“ (Stress-Zeichen antippen), Erlaubnis-Karte ziehen/merken (Baukasten je Antreiber: Anlass + Erlaubnis + kleiner Schritt, ~2.000 Kombinationen, Gesehenes wird gemieden), 7-Tage-Übung.
 Seite „Hintergrund“ (`src/hintergrund.html`): Herkunft, Belege und Grenzen des Modells mit Quellen – nur Belegtes eintragen.
 Antreiber-Farben sind auf Farbschwäche geprüft (Blau, Grün, Orange, Violett, Magenta) – Namen stehen immer dabei.
 Android-App `at.mayoka.antreiber` (Capacitor 7), sanfter MAYOKA-Hintergrund, läuft ohne Internet, Antworten bleiben auf dem Gerät.

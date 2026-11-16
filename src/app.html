@@ -207,6 +207,7 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
 .pcard{position:relative;overflow:hidden;border-radius:20px;padding:30px 22px 22px;background:var(--surface-solid);border:1px solid var(--line);min-height:210px;display:flex;flex-direction:column;justify-content:center;gap:14px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.06)}
 .pcard::before{content:"";position:absolute;inset:0 0 auto 0;height:8px;background:var(--pc,var(--accent))}
 .pcard .big{font-family:var(--f-display);font-weight:700;font-size:clamp(24px,6.5vw,30px);line-height:1.2;text-wrap:balance}
+.pcard .big.long{font-size:clamp(19px,5vw,23px);line-height:1.3;font-weight:500}
 .pcard.fresh{animation:pop .25s ease-out 1}
 @keyframes pop{from{transform:scale(.97);opacity:.4}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion: reduce){.pcard.fresh{animation:none}}
@@ -435,7 +436,9 @@ const D = {
     shadow:"Sie werden schwer fertig. Kleine Fehler kosten Sie viel Kraft. Lob kommt kaum an.",
     stress:"Sie erklären zu viel, prüfen alles mehrmals und kritisieren sich selbst.",
     permit:"Ich bin gut genug, so wie ich bin.",
-    perms:["Ich bin gut genug, so wie ich bin.","Fehler gehören zum Lernen dazu.","Fertig ist besser als perfekt.","Ich darf Dinge auch mal halb gut machen.","Niemand schaut so genau hin wie ich selbst.","Ich darf mich über das freuen, was gelungen ist.","Gut gemacht heißt nicht fehlerfrei gemacht.","Ich muss nicht alles wissen, bevor ich anfange."],
+    cards:{a:["Wenn ich etwas zum dritten Mal prüfe,", "Wenn mich ein kleiner Fehler lange ärgert,", "Wenn ich eine Nachricht wieder und wieder umschreibe,", "Wenn ich nicht anfangen kann, weil noch nicht alles klar ist,", "Wenn ich beim Lob nur sehe, was fehlt,", "Wenn sich „gut genug“ falsch anfühlt,"],
+      b:["darf ich sagen: Das ist gut genug.", "bin ich trotzdem in Ordnung.", "darf ich es abgeben, so wie es ist.", "darf ich einen Fehler stehen lassen.", "muss ich nicht alles wissen, bevor ich anfange.", "darf ich mich über das freuen, was gelungen ist.", "darf ich mit 80 Prozent zufrieden sein.", "bin ich wertvoll, auch mit Fehlern."],
+      c:["Ich atme einmal aus und gebe es ab.", "Ich lege vorher fest, wann es fertig ist.", "Ich sage mir: Fertig ist besser als perfekt.", "Ich suche heute einmal absichtlich nicht nach Fehlern.", "Ich lobe mich für eine Sache, die heute gelungen ist.", "Ich lasse heute eine Kleinigkeit einfach so."]},
     signs:["Ich prüfe etwas zum dritten Mal.","Ein kleiner Fehler ärgert mich sehr."],
     now:"Sagen Sie leise: „Das ist gut genug.“ Dann geben Sie es ab.",
     tip:"Legen Sie vorher fest, wann etwas fertig ist. Zum Beispiel: „80 Prozent reichen hier.“"},
@@ -444,7 +447,9 @@ const D = {
     shadow:"Sie tragen Lasten allein. Gefühle und Grenzen bemerken Sie oft erst spät.",
     stress:"Sie ziehen sich zurück, wirken kühl und lehnen Hilfe ab.",
     permit:"Ich darf Gefühle zeigen und um Hilfe bitten.",
-    perms:["Ich darf Gefühle zeigen und um Hilfe bitten.","Ich darf auch schwach sein.","Gemeinsam trägt es sich leichter.","Ich darf sagen: Das ist mir zu viel.","Auch ich brauche manchmal Trost.","Um Hilfe zu bitten ist nicht schwach, sondern klug.","Ich darf müde sein und Pause machen.","Meine Gefühle sind in Ordnung, so wie sie sind."],
+    cards:{a:["Wenn ich die Zähne zusammenbeiße,", "Wenn ich niemanden um Hilfe bitten will,", "Wenn ich nach außen ruhig wirke und innen nicht,", "Wenn ich weitermache, obwohl ich erschöpft bin,", "Wenn ich meine Gefühle lieber für mich behalte,", "Wenn ich wieder alles allein tragen will,"],
+      b:["darf ich sagen: Das ist mir zu viel.", "darf ich um Hilfe bitten.", "darf ich zeigen, wie es mir geht.", "darf ich schwach sein und bleibe trotzdem ich.", "darf ich müde sein.", "brauche ich Trost wie jeder Mensch.", "darf ich mir etwas abnehmen lassen.", "bin ich nicht allein."],
+      c:["Ich schreibe einem lieben Menschen, wie es mir wirklich geht.", "Ich lege heute eine Sache aus der Hand.", "Ich sage heute einmal ehrlich: Ich bin müde.", "Ich atme dreimal langsam aus.", "Ich bitte jemanden um einen kleinen Gefallen.", "Ich gönne mir zehn Minuten nur für mich."]},
     signs:["Ich beiße die Zähne zusammen.","Ich will niemanden um Hilfe bitten."],
     now:"Atmen Sie dreimal langsam aus. Schreiben Sie dann einem lieben Menschen, wie es Ihnen wirklich geht.",
     tip:"Sagen Sie einmal pro Woche jemandem ehrlich, wie es Ihnen geht."},
@@ -453,7 +458,9 @@ const D = {
     shadow:"Sie hetzen von Termin zu Termin. Erholung und Genuss kommen zu kurz.",
     stress:"Sie unterbrechen andere, machen Flüchtigkeitsfehler und werden ungeduldig.",
     permit:"Ich darf mir Zeit lassen.",
-    perms:["Ich darf mir Zeit lassen.","Eins nach dem anderen.","Pausen gehören dazu.","Ich habe Zeit genug für das, was wichtig ist.","Langsam ist auch ein Tempo.","Ich darf andere in Ruhe ausreden lassen.","Nicht alles muss heute fertig werden.","Ich darf warten, ohne mich zu ärgern."],
+    cards:{a:["Wenn ich innerlich gehetzt bin,", "Wenn ich mehrere Dinge gleichzeitig mache,", "Wenn ich jemanden unterbrechen will,", "Wenn Warten mich nervös macht,", "Wenn ich mehr plane, als in den Tag passt,", "Wenn sich eine Pause wie verlorene Zeit anfühlt,"],
+      b:["darf ich mir Zeit lassen.", "darf ich eins nach dem anderen tun.", "habe ich Zeit genug für das, was wichtig ist.", "darf ich langsam sein.", "darf ich eine Pause machen.", "darf ich warten, ohne mich zu ärgern.", "darf ich sagen: Nicht alles muss heute fertig werden.", "darf ich den anderen ausreden lassen."],
+      c:["Ich lege alles kurz weg und atme fünfmal ruhig.", "Ich mache jetzt nur eine Sache.", "Ich plane heute zehn Minuten Puffer ein.", "Ich gehe den nächsten Weg bewusst langsamer.", "Ich höre einmal zu, bis der andere fertig ist.", "Ich trinke etwas in Ruhe, ohne aufs Handy zu schauen."]},
     signs:["Ich fühle mich innerlich gehetzt.","Ich mache mehrere Dinge gleichzeitig."],
     now:"Legen Sie kurz alles weg. Atmen Sie fünfmal ruhig ein und aus. Dann nur eine Sache.",
     tip:"Planen Sie Puffer zwischen Terminen ein. Machen Sie eine Sache nach der anderen."},
@@ -462,7 +469,9 @@ const D = {
     shadow:"Sie machen Dinge schwerer als nötig. Vieles wird begonnen, aber nicht beendet.",
     stress:"Sie mühen sich ab, statt einfache Wege zu nutzen. Trotzdem fühlen Sie sich nie fertig.",
     permit:"Ich darf es mir leicht machen.",
-    perms:["Ich darf es mir leicht machen.","Es darf auch einfach gehen.","Ich darf mich über Fertiges freuen.","Leicht heißt nicht wertlos.","Ich darf den einfachen Weg nehmen.","Ich darf aufhören, wenn es gut ist.","Ich muss mir nichts beweisen.","Ich darf Erfolg ohne Mühe annehmen."],
+    cards:{a:["Wenn ich mich plage, obwohl es leichter ginge,", "Wenn ich mich nie richtig fertig fühle,", "Wenn ich wieder den schweren Weg wähle,", "Wenn ich zu viel auf einmal anfange,", "Wenn mir Erfolg ohne Mühe verdächtig vorkommt,", "Wenn ich sage: Ich versuche es,"],
+      b:["darf ich es mir leicht machen.", "darf ich den einfachen Weg nehmen.", "darf ich aufhören, wenn es gut ist.", "darf ich mich über Fertiges freuen.", "muss ich mir nichts beweisen.", "darf ich Erfolg annehmen, auch ohne Plage.", "darf ich sagen: Ich mache es – statt: Ich versuche es.", "darf ich sagen: Das Ergebnis zählt, nicht die Mühe."],
+      c:["Ich frage: Was ist der einfachste nächste Schritt?", "Ich beende heute eine kleine Sache ganz.", "Ich streiche eine Aufgabe von der Liste.", "Ich freue mich kurz über etwas, das fertig ist.", "Ich frage jemanden nach dem leichten Weg.", "Ich sage heute: Ich mache es."]},
     signs:["Ich plage mich, obwohl es leichter ginge.","Ich fühle mich nie richtig fertig."],
     now:"Fragen Sie sich: Was ist der einfachste nächste Schritt? Machen Sie nur diesen.",
     tip:"Fragen Sie bei jeder Aufgabe: „Wie geht es einfacher?“ Und freuen Sie sich über alles, was fertig ist."},
@@ -471,7 +480,9 @@ const D = {
     shadow:"Eigene Wünsche gehen unter. Nein sagen fällt schwer. Kritik trifft tief.",
     stress:"Sie sagen Ja, obwohl Sie Nein meinen. Danach fühlen Sie sich ausgenutzt.",
     permit:"Ich darf auf mich selbst achten.",
-    perms:["Ich darf auf mich selbst achten.","Ich darf Nein sagen.","Ich bin wertvoll, auch wenn mich nicht alle mögen.","Ich darf andere enttäuschen, ohne schlecht zu sein.","Meine Wünsche zählen genauso viel wie die der anderen.","Ich muss mich nicht für alles entschuldigen.","Ich darf meine Meinung sagen.","Ich bin nicht für die Laune der anderen verantwortlich."],
+    cards:{a:["Wenn ich Ja sage und Nein meine,", "Wenn ich mich sorge, was andere über mich denken,", "Wenn ich mich schon wieder entschuldige,", "Wenn ich meine Wünsche hinten anstelle,", "Wenn Kritik mich tief trifft,", "Wenn jemand verstimmt ist und ich die Schuld bei mir suche,"],
+      b:["darf ich Nein sagen.", "darf ich auf mich selbst achten.", "bin ich wertvoll, auch wenn mich nicht alle mögen.", "darf ich andere enttäuschen, ohne schlecht zu sein.", "darf ich sagen: Meine Wünsche zählen genauso viel.", "muss ich mich nicht für alles entschuldigen.", "darf ich meine Meinung sagen.", "bin ich nicht für die Laune der anderen verantwortlich."],
+      c:["Ich sage: Ich gebe dir später Bescheid.", "Ich frage mich zuerst: Was will ich selbst?", "Ich lasse heute eine Entschuldigung weg.", "Ich sage einmal freundlich Nein.", "Ich tue heute eine Sache nur für mich.", "Ich spreche eine Meinung aus, die anders ist als die der anderen."]},
     signs:["Ich habe Ja gesagt, obwohl ich Nein meinte.","Ich sorge mich, was andere über mich denken."],
     now:"Sagen Sie: „Ich überlege es mir kurz.“ Fragen Sie sich dann: Was will ich selbst?",
     tip:"Sagen Sie bei Bitten zuerst: „Ich gebe dir später Bescheid.“ Dann prüfen Sie in Ruhe."}
@@ -839,32 +850,40 @@ function drawNow(){
   $("nowOut").querySelector("[data-pick]").addEventListener("click", ()=>{ cardFor = k; });
 }
 
-// 2) Erlaubnis-Karte: 40 Sätze (8 je Antreiber). Jede Karte kommt erst wieder, wenn alle anderen durch sind.
+// 2) Erlaubnis-Karte: wird jedes Mal neu zusammengestellt aus Anlass („Wenn …,“), Erlaubnis („… darf ich …“) und
+//    kleinem Schritt. Vier Bauformen, fast 2.000 Möglichkeiten. Schon gezeigte Karten merkt sich die App und meidet sie.
 //    Ohne Auswahl kommen Karten zu den stärkeren Antreibern öfter. Mit Auswahl nur Karten zu diesem Antreiber.
-const CARDS = []; KEYS.forEach(k=>D[k].perms.forEach((t,i)=>CARDS.push({k,t,id:k+i})));
-const seen = mkStore("antreiber-karten", []);   // schon gezeigte Karten
+const seen = mkStore("antreiber-karten2", []);   // Kennungen schon gezeigter Karten (höchstens 600)
+const capB = b => b.replace(/^(\S+) ich\b/, "Ich $1");   // „darf ich …“ → „Ich darf …“
+const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+function buildCard(k){
+  const {a, b, c} = D[k].cards, form = pick([0,0,0,1,1,1,2,2,3,3]);
+  const ia = Math.floor(Math.random()*a.length), ib = Math.floor(Math.random()*b.length), ic = Math.floor(Math.random()*c.length);
+  const t = form===0 ? `${a[ia]} ${b[ib]} ${c[ic]}` : form===1 ? `${capB(b[ib])} ${c[ic]}` : form===2 ? capB(b[ib]) : `${a[ia]} ${b[ib]}`;
+  return {k, t, id:`${k}:${form}:${form===1||form===2?"-":ia}:${ib}:${form===0||form===1?ic:"-"}`};
+}
+const CARD_COUNT = KEYS.reduce((n,k)=>{ const {a,b,c}=D[k].cards; return n + a.length*b.length*c.length + b.length*c.length + b.length + a.length*b.length; }, 0);
 let card = null, cardFor = null, cardFilter = null;
 function drawCard(fresh){
   if (!card || fresh || cardFor){
     const prof = lastProfile(), want = cardFor || cardFilter;
-    const all = CARDS.filter(c=>!want || c.k===want);
-    let done = seen.get(), pool = all.filter(c=>!done.includes(c.id) && c!==card);
-    if (!pool.length){ done = done.filter(id=>!all.some(c=>c.id===id)); pool = all.filter(c=>c!==card); }   // alle durch → von vorne
-    const w = pool.map(c=> prof && !want ? Math.max(1, prof[c.k]-20) : 1);
-    let r = Math.random()*w.reduce((a,b)=>a+b,0), j = 0;
-    while (j < pool.length-1 && (r -= w[j]) > 0) j++;
-    card = pool[j]; cardFor = null;
-    if (!done.includes(card.id)) done.push(card.id); seen.set(done);
+    // Antreiber wählen: vorgegeben, oder zufällig – stärkere öfter
+    let k = want;
+    if (!k){ const w = KEYS.map(x=> prof ? Math.max(1, prof[x]-20) : 1); let r = Math.random()*w.reduce((x,y)=>x+y,0), j = 0; while (j < KEYS.length-1 && (r -= w[j]) > 0) j++; k = KEYS[j]; }
+    let done = seen.get(), next = null;
+    for (let i=0; i<30 && !next; i++){ const c = buildCard(k); if (!done.includes(c.id) && !(card && c.t===card.t)) next = c; }
+    if (!next){ done = []; next = buildCard(k); }   // sehr unwahrscheinlich: alles schon gesehen → von vorne
+    card = next; cardFor = null;
+    done.push(card.id); while (done.length > 600) done.shift(); seen.set(done);
   }
   const d = D[card.k], el = $("pcard");
   el.style.setProperty("--pc", `var(${d.color})`);
-  el.innerHTML = `<span class="eyebrow" style="color:var(--muted)">Erlaubnis gegen „${d.name}“</span><p class="big">„${esc(card.t)}“</p>`;
+  el.innerHTML = `<span class="eyebrow" style="color:var(--muted)">Erlaubnis gegen „${d.name}“</span><p class="big${card.t.length>80?" long":""}">„${esc(card.t)}“</p>`;
   el.classList.remove("fresh"); if (fresh){ void el.offsetWidth; el.classList.add("fresh"); }
   const sv = saved.get();
   $("keep").textContent = sv && sv.t===card.t ? "Gemerkt ✓" : "Als meinen Satz merken";
   $("cardPills").innerHTML = `<button data-k="" aria-pressed="${!cardFilter}">Alle</button>` + KEYS.map(x=>`<button data-k="${x}" aria-pressed="${x===cardFilter}"><span class="dot" style="background:var(${D[x].color})"></span>${D[x].name}</button>`).join("");
-  const all = CARDS.filter(c=>!cardFilter || c.k===cardFilter), n = seen.get().filter(id=>all.some(c=>c.id===id)).length;
-  $("cardHint").textContent = `${n} von ${all.length} Karten gesehen${n>=all.length?" – alle durch, es geht von vorne los":""}. `
+  $("cardHint").textContent = `Jede Karte wird neu zusammengestellt – aus fast ${Math.floor(CARD_COUNT/100)*100} Möglichkeiten. `
     + (cardFilter ? "" : lastProfile() ? "Karten zu Ihren stärkeren Antreibern kommen öfter." : "Nach dem Test kommen Karten zu Ihren stärkeren Antreibern öfter.");
 }
 $("cardPills").addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b) return; cardFilter = b.dataset.k || null; drawCard(true); });
