@@ -267,7 +267,8 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
       <p>Auch ohne Test: Prüfen Sie, was Sie gerade antreibt. Ziehen Sie eine Erlaubnis-Karte. Oder üben Sie sieben Tage lang.</p>
       <div class="row"><button class="btn ghost" data-tool="now">Werkzeuge öffnen</button></div>
     </div>
-    <p class="foot"><button data-legal>Datenschutz und Impressum</button><a href="https://mayoka.at" target="_blank" rel="noopener">mayoka.at</a></p>
+    <p class="foot"><button data-legal>Datenschutz und Impressum</button><a href="https://mayoka.at" target="_blank" rel="noopener">mayoka.at</a><button id="checkNow" hidden>Nach Neuerungen suchen</button></p>
+    <p class="hint" id="checkMsg" aria-live="polite" hidden></p>
   </section>
 
   <!-- FRAGEN -->
@@ -469,6 +470,7 @@ const Share = isNative ? cap.registerPlugin("Share") : null;
 const App = isNative ? cap.registerPlugin("App") : null;
 
 const $ = id => document.getElementById(id);
+try{ localStorage.setItem("ab-boot-ok", window.__AB_RUNNING || "web"); }catch(e){}   // dieser Stand startet (für den Lader)
 const esc = t => String(t).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let answers = new Array(Q.length).fill(0), idx = 0, view = "start", prevView = "start";
 function mkStore(KEY, fallback){ return {
@@ -834,7 +836,6 @@ refreshStart();
    Sparsam: höchstens alle 6 Stunden nachsehen, nur beim Öffnen. */
 const RUNNING = window.__AB_RUNNING || "web", SHELL = window.__AB_SHELL || 0, UPD = window.__AB_UPDATE || null;
 const raw = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k,v){ try{ v===null?localStorage.removeItem(k):localStorage.setItem(k,v); }catch(e){} } };
-raw.set("ab-boot-ok", RUNNING);   // dieser Stand startet sauber
 function bar(text, btn, fn){
   $("updateText").textContent = text; $("updateBtn").textContent = btn;
   $("updateBtn").onclick = fn; $("updateLater").onclick = ()=>{ $("update").hidden = true; };
@@ -842,23 +843,38 @@ function bar(text, btn, fn){
 }
 function openApk(url){ window.location.href = url; }   // Capacitor öffnet fremde Adressen im Browser: Download, dann Installation
 async function checkUpdate(force){
-  if (!isNative || !UPD || !UPD.base) return;
+  if (!isNative || !UPD || !UPD.base) return "web";
   const last = +(raw.get("ab-check") || 0);
-  if (!force && Date.now() - last < 6*3600*1000) return;
+  if (!force && Date.now() - last < 6*3600*1000) return "warten";
   raw.set("ab-check", String(Date.now()));
   try{
     const v = await (await fetch(UPD.base + "version.json?t=" + Date.now(), {cache:"no-store"})).json();
     const apk = v.apkUrl || UPD.apk;
     if ((v.minShell && v.minShell > SHELL) || (v.shell && v.shell > SHELL)){
       bar("Eine neue Version der App ist da. Ihre Ergebnisse bleiben erhalten.", "Jetzt aktualisieren", ()=>openApk(apk));
-      if (v.minShell && v.minShell > SHELL) return;
+      if (v.minShell && v.minShell > SHELL) return "app";
     }
-    if (!v.version || v.version === RUNNING || v.version === raw.get("ab-bundle-v") || v.version === raw.get("ab-bundle-bad")) return;
+    if (!v.version || v.version === RUNNING) return "aktuell";
+    if (v.version === raw.get("ab-bundle-v")){ if ($("update").hidden && view !== "quiz") bar("Eine neue Version ist bereit.", "Jetzt neu laden", ()=>location.reload()); return "bereit"; }
+    if (v.version === raw.get("ab-bundle-bad") && !force) return "aktuell";   // ist schon einmal nicht sauber gestartet; von Hand darf man es noch einmal versuchen
     const html = await (await fetch(UPD.base + "app.html?v=" + v.version, {cache:"no-store"})).text();
-    if (!html.includes('id="quiz"') || html.length < 5000) return;   // unvollständiger Download
-    raw.set("ab-bundle", html); raw.set("ab-bundle-v", v.version); raw.set("ab-bundle-base", window.__AB_BUILTIN || "");
+    if (!html.includes('id="quiz"') || html.length < 5000) return "fehler: Download unvollständig";
+    raw.set("ab-bundle", html); raw.set("ab-bundle-v", v.version); raw.set("ab-bundle-base", window.__AB_BUILTIN || ""); raw.set("ab-bundle-bad", null);
     if ($("update").hidden && view !== "quiz") bar("Eine neue Version ist bereit.", "Jetzt neu laden", ()=>location.reload());
-  }catch(e){ /* kein Internet: beim nächsten Öffnen wieder */ }
+    return "bereit";
+  }catch(e){ return "fehler: " + ((e && e.message) || e); }   // kein Internet o. Ä.: beim nächsten Öffnen wieder
+}
+// Knopf „Nach Neuerungen suchen“ (nur in der App): prüft sofort und sagt, was Sache ist
+if (isNative && UPD && UPD.base){
+  $("checkNow").hidden = false;
+  $("checkNow").onclick = async ()=>{
+    const m = $("checkMsg"); m.hidden = false; m.textContent = "Suche …";
+    const r = await checkUpdate(true);
+    m.textContent = r === "aktuell" ? `Sie haben die neueste Version (Inhalt ${String(RUNNING).slice(0,6)}).`
+      : r === "bereit" ? "Neue Version geladen. Tippen Sie unten auf „Jetzt neu laden“."
+      : r === "app" ? "Eine neue Version der App ist da. Tippen Sie unten auf „Jetzt aktualisieren“."
+      : "Prüfen hat nicht geklappt. Besteht eine Internet-Verbindung? (" + r.replace(/^fehler: /,"") + ")";
+  };
 }
 (async ()=>{
   let name = "";
