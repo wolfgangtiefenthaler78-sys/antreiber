@@ -121,6 +121,7 @@ details[open] summary::after{content:"–"}
 .legal ul{margin:0;padding-left:20px;display:grid;gap:6px}
 .legal mark{background:#ffe58a;color:#2a2420;padding:0 4px;border-radius:4px}
 .legal h2{margin-top:6px}
+.legal a{color:var(--accent)}
 .foot{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:14px;color:var(--muted)}
 .foot button,.foot a{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;text-underline-offset:3px;min-height:32px}
 .install{border-left:5px solid var(--mk-blue)}
@@ -145,7 +146,12 @@ details[open] summary::after{content:"–"}
 .hero svg{width:100%;max-width:360px;height:auto;margin:0 auto;display:block}
 .cap{font-size:14px;color:var(--muted);text-align:center}
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.fact{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 8px;text-align:center;font-size:14px;line-height:1.3}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 8px;text-align:center;font-size:14px;line-height:1.3;font-family:var(--f-text);color:var(--muted);cursor:pointer}
+.fact:hover{border-color:var(--accent)}
+.fact[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--accent-soft)}
+.fact:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.facthint{text-align:center;margin-top:-6px}
+.stored{display:grid;gap:6px;margin:0;padding-left:20px}
 .fact b{display:block;font-family:var(--f-display);font-size:20px;color:var(--fg)}
 .chip{width:100%;text-align:left;font:inherit;line-height:1.35}
 button.chip:hover{border-color:var(--accent)}
@@ -234,10 +240,12 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
       </figure>
     </div>
     <div class="facts">
-      <div class="fact"><b>50</b>kurze Aussagen</div>
-      <div class="fact"><b>8 Min.</b>Zeit, etwa</div>
-      <div class="fact"><b>100 %</b>bleibt am Handy</div>
+      <button class="fact" data-fact="aussagen" aria-expanded="false" aria-controls="factInfo"><b>50</b>kurze Aussagen</button>
+      <button class="fact" data-fact="zeit" aria-expanded="false" aria-controls="factInfo"><b>8 Min.</b>Zeit, etwa</button>
+      <button class="fact" data-fact="handy" aria-expanded="false" aria-controls="factInfo"><b>100 %</b>bleibt am Handy</button>
     </div>
+    <p class="hint facthint">Antippen für mehr dazu.</p>
+    <div class="card stack info" id="factInfo" hidden aria-live="polite"></div>
     <div class="card stack explain" id="explain">
       <h3>Kurz erklärt – probieren Sie es</h3>
       <div class="stack" style="gap:8px">
@@ -528,6 +536,42 @@ function radarSVG(s, opt={}){
 /* ---- Startseite ---- */
 $("heroChart").innerHTML = radarSVG({perfekt:41,stark:29,beeil:45,streng:25,recht:36}, {labels:"name"});
 $("chips").innerHTML = KEYS.map(k=>`<button class="chip" data-k="${k}" aria-expanded="false" aria-controls="driverInfo"><span class="dot" style="background:var(${D[k].color})"></span><span><b>${D[k].name}</b><br><span class="muted" style="font-size:14px">${D[k].short}</span></span></button>`).join("");
+/* ---- Die drei Kästchen: antippen → kurze Erklärung mit etwas zum Ausprobieren ---- */
+let exQ = -1;
+function factContent(which){
+  if (which === "aussagen"){
+    exQ = (exQ + 1 + Math.floor(Math.random()*5)) % Q.length;
+    const q = Q[exQ];
+    return `<h3>50 kurze Aussagen</h3><p>Zu jedem der fünf Antreiber gibt es zehn Aussagen, gut gemischt. Alle sind so kurz wie diese:</p>
+      <p class="statement" style="min-height:0;font-size:20px">„${q.t}“</p>
+      <p class="hint">Diese gehört zu <b style="color:var(${D[q.k].color})">${D[q.k].name}</b>. Zehn Antworten je Antreiber ergeben 10 bis 50 Punkte.</p>
+      <div class="row"><button class="btn ghost small" data-fact="aussagen">Noch ein Beispiel</button></div>`;
+  }
+  if (which === "zeit"){
+    const st = store.get(), begun = st && Array.isArray(st.answers) ? st.answers.filter(Boolean).length : 0;
+    return `<h3>Etwa 8 Minuten</h3><p>Pro Aussage reichen ein paar Sekunden – antworten Sie aus dem Bauch. Nach dem Antippen geht es automatisch weiter.</p>
+      <p>Sie können jederzeit unterbrechen: Der Knopf <b>„Start“</b> oben bringt Sie zurück, Ihr Fortschritt bleibt gespeichert, und auf der Startseite steht dann <b>„Weitermachen“</b>.</p>
+      <div><div class="progress"><i style="width:${begun/Q.length*100}%"></i></div><p class="hint" style="margin-top:6px">${begun ? `Sie haben schon ${begun} von ${Q.length} Aussagen beantwortet.` : `So füllt sich der Balken während des Tests – ${Q.length} Aussagen, ein Balken.`}</p></div>`;
+  }
+  const h = hist.get(), sv = saved.get(), pl = plan.get(), days = pl.k ? (pl.days[pl.k]||[]).filter(Boolean).length : 0;
+  const items = [];
+  if (h.length) items.push(`${h.length} fertige${h.length===1?"r":""} Test${h.length===1?"":"s"} mit Ergebnis`);
+  const st = store.get(); if (st && !st.done && Array.isArray(st.answers) && st.answers.some(Boolean)) items.push("ein angefangener Test");
+  if (sv) items.push("Ihr gemerkter Erlaubnis-Satz"); if (pl.k) items.push(`die 7-Tage-Übung (${days} von 7 Tagen)`);
+  return `<h3>100 % bleibt am Handy</h3><p>Es gibt kein Konto und keinen Server. Ihre Antworten gehen nirgends hin – auch nicht an uns. Wir können Ihre Ergebnisse nicht sehen.</p>
+    <p><b>Das ist gerade auf diesem Gerät gespeichert:</b></p>
+    ${items.length ? `<ul class="stored">${items.map(i=>`<li>${i}</li>`).join("")}</ul>` : `<p class="hint">Noch nichts – Sie haben noch keinen Test gemacht.</p>`}
+    <p class="hint">Löschen geht jederzeit beim Ergebnis („Diesen Test löschen“) oder indem Sie die App entfernen. Mehr dazu unter <button class="linkish" data-legal>Datenschutz</button>.</p>`;
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-fact]"); if(!b) return;
+  const which = b.dataset.fact, box = $("factInfo"), again = !b.classList.contains("fact");
+  const open = b.getAttribute("aria-expanded") === "true";
+  document.querySelectorAll(".fact").forEach(f=>f.setAttribute("aria-expanded", String(f.dataset.fact === which && (again || !open))));
+  if (open && !again){ box.hidden = true; return; }
+  box.innerHTML = factContent(which); box.hidden = false;
+});
+
 $("chips").addEventListener("click", e=>{
   const b = e.target.closest(".chip"); if(!b) return;
   const open = b.getAttribute("aria-expanded")==="true";
