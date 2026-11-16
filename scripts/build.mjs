@@ -11,8 +11,9 @@ import { createHash } from 'node:crypto';
 
 const META = JSON.parse(readFileSync('app-meta.json', 'utf8'));
 const legal = readFileSync('src/rechtliches.html', 'utf8').replace(/<!--[\s\S]*?-->\s*/, '');
-const html = readFileSync('src/app.html', 'utf8').replace('<!-- RECHTLICHES -->', legal);
-if (!html.includes('class="stack legal"')) throw new Error('Platzhalter <!-- RECHTLICHES --> fehlt in src/app.html');
+const science = readFileSync('src/hintergrund.html', 'utf8').replace(/<!--[\s\S]*?-->\s*/, '');
+const html = readFileSync('src/app.html', 'utf8').replace('<!-- RECHTLICHES -->', legal).replace('<!-- HINTERGRUND -->', science);
+if (!html.includes('class="stack legal"') || !html.includes('class="stack science"')) throw new Error('Platzhalter <!-- RECHTLICHES --> oder <!-- HINTERGRUND --> fehlt in src/app.html');
 const version = createHash('sha256').update(html).digest('hex').slice(0, 12);
 const b64 = Buffer.from(html, 'utf8').toString('base64');
 

@@ -7,7 +7,8 @@ Erkläre Änderungen in Alltagssprache, ohne Fachjargon, und sag am Ende, was er
 Selbsttest zu den fünf Antreibern der Transaktionsanalyse (Kahler 1975): 50 eigene Aussagen, Skala 1–5,
 Profil als Fünfeck oder Balken (10–50 Punkte, ab 38 „stark“), Vergleich mit dem letzten Test, Verlauf (bis 12 Tests),
 je Antreiber Stärke, Kehrseite, Stress-Zeichen, Erlaubnis-Satz, Übung.
-Werkzeuge: „Gerade jetzt“ (Stress-Zeichen antippen), Erlaubnis-Karte ziehen/merken, 7-Tage-Übung.
+Werkzeuge: „Gerade jetzt“ (Stress-Zeichen antippen), Erlaubnis-Karte ziehen/merken (40 Sätze, keine Wiederholung bis alle durch), 7-Tage-Übung.
+Seite „Hintergrund“ (`src/hintergrund.html`): Herkunft, Belege und Grenzen des Modells mit Quellen – nur Belegtes eintragen.
 Antreiber-Farben sind auf Farbschwäche geprüft (Blau, Grün, Orange, Violett, Magenta) – Namen stehen immer dabei.
 Android-App `at.mayoka.antreiber` (Capacitor 7), sanfter MAYOKA-Hintergrund, läuft ohne Internet, Antworten bleiben auf dem Gerät.
 Dazu Web-Fassung auf GitHub Pages (`https://wolfgangtiefenthaler78-sys.github.io/antreiber/`, am iPhone „Zum Home-Bildschirm“)
@@ -19,6 +20,7 @@ und ein iPhone-Projekt (`ios/`, Bau nur über GitHub; auf ein iPhone kommt es er
 |---|---|
 | Inhalt und Logik (eine Datei) | `src/app.html` (Platzhalter `<!-- RECHTLICHES -->`) |
 | Datenschutz und Impressum (ein Text für App und Web) | `src/rechtliches.html` – gelbe `[bitte ergänzen]`-Stellen vor Store-Einreichung füllen |
+| Wissenschaftlicher Hintergrund | `src/hintergrund.html` (Platzhalter `<!-- HINTERGRUND -->`) |
 | Feste Dateien (Schriften, Logo, Capacitor-Kern) | `static/` |
 | Bau: Lader `www/index.html` + Update-Dateien `dist/` + Web-Fassung `web/` (mit Service Worker) | `scripts/build.mjs` (`npm run build`, `npm run android`) |
 | Symbole, Startbild, Store-Bilder aus `assets/icon.svg` | `scripts/icons.mjs` (nur bei Symbol-Änderung) |

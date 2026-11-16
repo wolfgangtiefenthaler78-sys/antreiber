@@ -122,6 +122,10 @@ details[open] summary::after{content:"–"}
 .legal mark{background:#ffe58a;color:#2a2420;padding:0 4px;border-radius:4px}
 .legal h2{margin-top:6px}
 .legal a{color:var(--accent)}
+.science ul,.science ol{margin:0;padding-left:20px;display:grid;gap:8px}
+.science h2{font-size:20px;margin-top:8px}
+.science .refs{font-size:14px;color:var(--muted);gap:5px}
+.science a{color:var(--accent)}
 .foot{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:14px;color:var(--muted)}
 .foot button,.foot a{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;text-underline-offset:3px;min-height:32px}
 .install{border-left:5px solid var(--mk-blue)}
@@ -265,7 +269,7 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
     <div class="card stack saved" id="savedCard" hidden></div>
     <div class="stack">
       <h2>Die fünf Antreiber</h2>
-      <p class="hint">Tippen Sie einen an, um mehr zu erfahren.</p>
+      <p class="hint">Tippen Sie einen an, um mehr zu erfahren. <button class="linkish" data-science style="font-weight:400">Woher kommt das Modell?</button></p>
       <div class="drivers" id="chips"></div>
       <div class="card stack info" id="driverInfo" hidden aria-live="polite"></div>
     </div>
@@ -354,8 +358,21 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
     <div class="stack src">
       <p><b>Wichtig:</b> Der Test hilft beim Nachdenken über sich selbst. Er ist keine Diagnose und nicht wissenschaftlich geprüft. Die Antreiber sind ein Denkmodell aus der Transaktionsanalyse, kein gemessener Persönlichkeitstest.</p>
       <p>Grundlage: Kahler T. (1975): Drivers – the key to the process of scripts. Transactional Analysis Journal 5(3), 280–284. <a href="https://doi.org/10.1177/036215377500500318" target="_blank" rel="noopener">doi.org/10.1177/036215377500500318</a>. Die Aussagen in diesem Test sind neu formuliert.</p>
-      <p class="foot"><button data-legal>Datenschutz und Impressum</button></p>
+      <p class="foot"><button data-science>Wissenschaftlicher Hintergrund</button><button data-legal>Datenschutz und Impressum</button></p>
     </div>
+  </section>
+
+  <!-- HINTERGRUND (Text aus src/hintergrund.html, wird beim Bau eingesetzt) -->
+  <section id="science" class="stack" style="gap:20px" hidden>
+    <div class="topbar">
+      <span class="eyebrow">Hintergrund</span>
+      <div class="row"><button class="btn ghost small" id="scienceBack">Zurück</button><button class="btn ghost small home" data-home aria-label="Zur Startseite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>Start</button></div>
+    </div>
+    <h1>Was dahintersteckt</h1>
+    <div class="card">
+      <!-- HINTERGRUND -->
+    </div>
+    <div class="row"><button class="btn" id="go2">Test starten</button></div>
   </section>
 
   <!-- RECHTLICHES (Text aus src/rechtliches.html, wird beim Bau eingesetzt) -->
@@ -390,6 +407,7 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
 
     <div class="stack" id="p-card" role="tabpanel" aria-labelledby="tab-card" style="gap:16px" hidden>
       <p>Eine Erlaubnis ist ein freundlicher Satz an sich selbst. Er macht dem Antreiber Platz. Lesen Sie ihn langsam, gern zweimal.</p>
+      <div class="pills" id="cardPills" role="group" aria-label="Karten für"></div>
       <div class="pcard" id="pcard"></div>
       <div class="row">
         <button class="btn" id="draw">Neue Karte ziehen</button>
@@ -417,7 +435,7 @@ const D = {
     shadow:"Sie werden schwer fertig. Kleine Fehler kosten Sie viel Kraft. Lob kommt kaum an.",
     stress:"Sie erklären zu viel, prüfen alles mehrmals und kritisieren sich selbst.",
     permit:"Ich bin gut genug, so wie ich bin.",
-    perms:["Ich bin gut genug, so wie ich bin.","Fehler gehören zum Lernen dazu.","Fertig ist besser als perfekt."],
+    perms:["Ich bin gut genug, so wie ich bin.","Fehler gehören zum Lernen dazu.","Fertig ist besser als perfekt.","Ich darf Dinge auch mal halb gut machen.","Niemand schaut so genau hin wie ich selbst.","Ich darf mich über das freuen, was gelungen ist.","Gut gemacht heißt nicht fehlerfrei gemacht.","Ich muss nicht alles wissen, bevor ich anfange."],
     signs:["Ich prüfe etwas zum dritten Mal.","Ein kleiner Fehler ärgert mich sehr."],
     now:"Sagen Sie leise: „Das ist gut genug.“ Dann geben Sie es ab.",
     tip:"Legen Sie vorher fest, wann etwas fertig ist. Zum Beispiel: „80 Prozent reichen hier.“"},
@@ -426,7 +444,7 @@ const D = {
     shadow:"Sie tragen Lasten allein. Gefühle und Grenzen bemerken Sie oft erst spät.",
     stress:"Sie ziehen sich zurück, wirken kühl und lehnen Hilfe ab.",
     permit:"Ich darf Gefühle zeigen und um Hilfe bitten.",
-    perms:["Ich darf Gefühle zeigen und um Hilfe bitten.","Ich darf auch schwach sein.","Gemeinsam trägt es sich leichter."],
+    perms:["Ich darf Gefühle zeigen und um Hilfe bitten.","Ich darf auch schwach sein.","Gemeinsam trägt es sich leichter.","Ich darf sagen: Das ist mir zu viel.","Auch ich brauche manchmal Trost.","Um Hilfe zu bitten ist nicht schwach, sondern klug.","Ich darf müde sein und Pause machen.","Meine Gefühle sind in Ordnung, so wie sie sind."],
     signs:["Ich beiße die Zähne zusammen.","Ich will niemanden um Hilfe bitten."],
     now:"Atmen Sie dreimal langsam aus. Schreiben Sie dann einem lieben Menschen, wie es Ihnen wirklich geht.",
     tip:"Sagen Sie einmal pro Woche jemandem ehrlich, wie es Ihnen geht."},
@@ -435,7 +453,7 @@ const D = {
     shadow:"Sie hetzen von Termin zu Termin. Erholung und Genuss kommen zu kurz.",
     stress:"Sie unterbrechen andere, machen Flüchtigkeitsfehler und werden ungeduldig.",
     permit:"Ich darf mir Zeit lassen.",
-    perms:["Ich darf mir Zeit lassen.","Eins nach dem anderen.","Pausen gehören dazu."],
+    perms:["Ich darf mir Zeit lassen.","Eins nach dem anderen.","Pausen gehören dazu.","Ich habe Zeit genug für das, was wichtig ist.","Langsam ist auch ein Tempo.","Ich darf andere in Ruhe ausreden lassen.","Nicht alles muss heute fertig werden.","Ich darf warten, ohne mich zu ärgern."],
     signs:["Ich fühle mich innerlich gehetzt.","Ich mache mehrere Dinge gleichzeitig."],
     now:"Legen Sie kurz alles weg. Atmen Sie fünfmal ruhig ein und aus. Dann nur eine Sache.",
     tip:"Planen Sie Puffer zwischen Terminen ein. Machen Sie eine Sache nach der anderen."},
@@ -444,7 +462,7 @@ const D = {
     shadow:"Sie machen Dinge schwerer als nötig. Vieles wird begonnen, aber nicht beendet.",
     stress:"Sie mühen sich ab, statt einfache Wege zu nutzen. Trotzdem fühlen Sie sich nie fertig.",
     permit:"Ich darf es mir leicht machen.",
-    perms:["Ich darf es mir leicht machen.","Es darf auch einfach gehen.","Ich darf mich über Fertiges freuen."],
+    perms:["Ich darf es mir leicht machen.","Es darf auch einfach gehen.","Ich darf mich über Fertiges freuen.","Leicht heißt nicht wertlos.","Ich darf den einfachen Weg nehmen.","Ich darf aufhören, wenn es gut ist.","Ich muss mir nichts beweisen.","Ich darf Erfolg ohne Mühe annehmen."],
     signs:["Ich plage mich, obwohl es leichter ginge.","Ich fühle mich nie richtig fertig."],
     now:"Fragen Sie sich: Was ist der einfachste nächste Schritt? Machen Sie nur diesen.",
     tip:"Fragen Sie bei jeder Aufgabe: „Wie geht es einfacher?“ Und freuen Sie sich über alles, was fertig ist."},
@@ -453,7 +471,7 @@ const D = {
     shadow:"Eigene Wünsche gehen unter. Nein sagen fällt schwer. Kritik trifft tief.",
     stress:"Sie sagen Ja, obwohl Sie Nein meinen. Danach fühlen Sie sich ausgenutzt.",
     permit:"Ich darf auf mich selbst achten.",
-    perms:["Ich darf auf mich selbst achten.","Ich darf Nein sagen.","Ich bin wertvoll, auch wenn mich nicht alle mögen."],
+    perms:["Ich darf auf mich selbst achten.","Ich darf Nein sagen.","Ich bin wertvoll, auch wenn mich nicht alle mögen.","Ich darf andere enttäuschen, ohne schlecht zu sein.","Meine Wünsche zählen genauso viel wie die der anderen.","Ich muss mich nicht für alles entschuldigen.","Ich darf meine Meinung sagen.","Ich bin nicht für die Laune der anderen verantwortlich."],
     signs:["Ich habe Ja gesagt, obwohl ich Nein meinte.","Ich sorge mich, was andere über mich denken."],
     now:"Sagen Sie: „Ich überlege es mir kurz.“ Fragen Sie sich dann: Was will ich selbst?",
     tip:"Sagen Sie bei Bitten zuerst: „Ich gebe dir später Bescheid.“ Dann prüfen Sie in Ruhe."}
@@ -630,7 +648,7 @@ $("exScale").addEventListener("click", e=>{
 });
 
 /* ---- Fragen ---- */
-function show(id){ view=id; ["start","quiz","result","tools","legal"].forEach(s=>$(s).hidden = s!==id); window.scrollTo(0,0); }
+function show(id){ view=id; ["start","quiz","result","tools","legal","science"].forEach(s=>$(s).hidden = s!==id); window.scrollTo(0,0); }
 function cheer(i){
   return i<1 ? "Antworten Sie aus dem Bauch. Es gibt kein Richtig oder Falsch."
     : i<10 ? "Gut so. Einfach weiter." : i<25 ? "Sie sind gut unterwegs." : i<35 ? "Halbzeit geschafft!"
@@ -781,6 +799,9 @@ $("toolsBack").onclick = closeTools;
 document.addEventListener("click", e=>{ if (e.target.closest("[data-legal]")){ prevView = view; show("legal"); } });
 document.addEventListener("click", e=>{ if (e.target.closest("[data-home]")){ show("start"); refreshStart(); } });   // von überall zurück zum Start, Fortschritt bleibt gespeichert
 $("legalBack").onclick = closeTools;
+document.addEventListener("click", e=>{ if (e.target.closest("[data-science]")){ prevView = view; show("science"); } });
+$("scienceBack").onclick = closeTools;
+$("go2").onclick = ()=>$("go").click();
 document.addEventListener("click", e=>{ const b = e.target.closest("[data-tool]"); if(b) openTools(b.dataset.tool, b.dataset.k); });
 const TABS = ["now","card","plan"];
 function selectTab(t){
@@ -818,17 +839,22 @@ function drawNow(){
   $("nowOut").querySelector("[data-pick]").addEventListener("click", ()=>{ cardFor = k; });
 }
 
-// 2) Erlaubnis-Karte: zufällig, stärkere Antreiber kommen öfter dran
-const CARDS = []; KEYS.forEach(k=>D[k].perms.forEach(t=>CARDS.push({k,t})));
-let card = null, cardFor = null;
+// 2) Erlaubnis-Karte: 40 Sätze (8 je Antreiber). Jede Karte kommt erst wieder, wenn alle anderen durch sind.
+//    Ohne Auswahl kommen Karten zu den stärkeren Antreibern öfter. Mit Auswahl nur Karten zu diesem Antreiber.
+const CARDS = []; KEYS.forEach(k=>D[k].perms.forEach((t,i)=>CARDS.push({k,t,id:k+i})));
+const seen = mkStore("antreiber-karten", []);   // schon gezeigte Karten
+let card = null, cardFor = null, cardFilter = null;
 function drawCard(fresh){
   if (!card || fresh || cardFor){
-    const prof = lastProfile();
-    let pool = CARDS.filter(c=>c!==card && (!cardFor || c.k===cardFor));
-    const w = pool.map(c=> prof ? Math.max(1, prof[c.k]-20) : 1);
+    const prof = lastProfile(), want = cardFor || cardFilter;
+    const all = CARDS.filter(c=>!want || c.k===want);
+    let done = seen.get(), pool = all.filter(c=>!done.includes(c.id) && c!==card);
+    if (!pool.length){ done = done.filter(id=>!all.some(c=>c.id===id)); pool = all.filter(c=>c!==card); }   // alle durch → von vorne
+    const w = pool.map(c=> prof && !want ? Math.max(1, prof[c.k]-20) : 1);
     let r = Math.random()*w.reduce((a,b)=>a+b,0), j = 0;
     while (j < pool.length-1 && (r -= w[j]) > 0) j++;
     card = pool[j]; cardFor = null;
+    if (!done.includes(card.id)) done.push(card.id); seen.set(done);
   }
   const d = D[card.k], el = $("pcard");
   el.style.setProperty("--pc", `var(${d.color})`);
@@ -836,8 +862,12 @@ function drawCard(fresh){
   el.classList.remove("fresh"); if (fresh){ void el.offsetWidth; el.classList.add("fresh"); }
   const sv = saved.get();
   $("keep").textContent = sv && sv.t===card.t ? "Gemerkt ✓" : "Als meinen Satz merken";
-  $("cardHint").textContent = lastProfile() ? "Karten zu Ihren stärkeren Antreibern kommen öfter." : "Nach dem Test kommen Karten zu Ihren stärkeren Antreibern öfter.";
+  $("cardPills").innerHTML = `<button data-k="" aria-pressed="${!cardFilter}">Alle</button>` + KEYS.map(x=>`<button data-k="${x}" aria-pressed="${x===cardFilter}"><span class="dot" style="background:var(${D[x].color})"></span>${D[x].name}</button>`).join("");
+  const all = CARDS.filter(c=>!cardFilter || c.k===cardFilter), n = seen.get().filter(id=>all.some(c=>c.id===id)).length;
+  $("cardHint").textContent = `${n} von ${all.length} Karten gesehen${n>=all.length?" – alle durch, es geht von vorne los":""}. `
+    + (cardFilter ? "" : lastProfile() ? "Karten zu Ihren stärkeren Antreibern kommen öfter." : "Nach dem Test kommen Karten zu Ihren stärkeren Antreibern öfter.");
 }
+$("cardPills").addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b) return; cardFilter = b.dataset.k || null; drawCard(true); });
 $("draw").onclick = ()=>drawCard(true);
 $("keep").onclick = ()=>{ saved.set(card); drawCard(false); $("cardHint").textContent = "Der Satz steht jetzt auf Ihrer Startseite."; };
 
@@ -959,7 +989,7 @@ if (App){
   App.addListener("backButton", ()=>{
     if (view==="quiz") goBack();
     else if (view==="result"){ show("start"); refreshStart(); }
-    else if (view==="tools" || view==="legal") closeTools();
+    else if (view==="tools" || view==="legal" || view==="science") closeTools();
     else App.exitApp();
   });
 }
