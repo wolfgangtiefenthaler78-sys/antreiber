@@ -1,0 +1,109 @@
+name: iPhone-App bauen
+
+# Baut die iPhone-App auf einem Apple-Rechner bei GitHub. Von Hand starten (Actions → „iPhone-App bauen“ → „Run workflow“).
+#
+# Ohne Apple-Zugangsdaten: prüft nur, ob die App fehlerfrei baut (keine installierbare Datei – Apple lässt
+#   ohne Unterschrift nichts auf ein iPhone).
+# Mit diesen Secrets wird die App unterschrieben und zu TestFlight hochgeladen; Tester bekommen sie dann
+#   über die TestFlight-App oder einen öffentlichen TestFlight-Link (siehe store/app-store.md):
+#   IOS_CERT_P12_B64       – Verteil-Zertifikat (Apple Distribution) als .p12, base64-codiert
+#   IOS_CERT_PASSWORD      – Passwort dieser .p12-Datei
+#   IOS_PROFILE_B64        – Provisioning-Profil (App Store) als .mobileprovision, base64-codiert
+#   APPLE_TEAM_ID          – Team-ID aus dem Apple-Entwicklerkonto (10 Zeichen)
+#   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8_B64 – App Store Connect API-Schlüssel (für den Upload)
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx cap sync ios
+      - name: Build-Nummer setzen
+        working-directory: ios/App
+        run: |
+          # Jede Veröffentlichung braucht eine höhere Nummer; wir nehmen die Nummer dieses Laufs
+          sed -i '' "s/CURRENT_PROJECT_VERSION = [0-9]*;/CURRENT_PROJECT_VERSION = ${{ github.run_number }};/g" App.xcodeproj/project.pbxproj
+          sed -i '' "s/MARKETING_VERSION = [0-9.]*;/MARKETING_VERSION = 1.0.${{ github.run_number }};/g" App.xcodeproj/project.pbxproj
+
+      - name: Prüf-Bau ohne Unterschrift
+        if: ${{ secrets.IOS_CERT_P12_B64 == '' }}
+        working-directory: ios/App
+        run: |
+          xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos \
+            -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            -derivedDataPath build build | tail -40
+          echo "::notice::Die iPhone-App baut fehlerfrei. Für eine installierbare Fassung fehlen die Apple-Secrets (siehe store/app-store.md)."
+
+      - name: Zertifikat und Profil einrichten
+        if: ${{ secrets.IOS_CERT_P12_B64 != '' }}
+        env:
+          CERT: ${{ secrets.IOS_CERT_P12_B64 }}
+          CERT_PW: ${{ secrets.IOS_CERT_PASSWORD }}
+          PROFILE: ${{ secrets.IOS_PROFILE_B64 }}
+        run: |
+          KC="$RUNNER_TEMP/build.keychain-db"; KPW=$(uuidgen)
+          security create-keychain -p "$KPW" "$KC"
+          security set-keychain-settings -lut 21600 "$KC"
+          security unlock-keychain -p "$KPW" "$KC"
+          printf '%s' "$CERT" | tr -d ' \r\n\t' | base64 -d > "$RUNNER_TEMP/cert.p12"
+          security import "$RUNNER_TEMP/cert.p12" -P "$CERT_PW" -A -t cert -f pkcs12 -k "$KC"
+          security set-key-partition-list -S apple-tool:,apple: -k "$KPW" "$KC"
+          security list-keychain -d user -s "$KC"
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          printf '%s' "$PROFILE" | tr -d ' \r\n\t' | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/antreiber.mobileprovision
+          security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/antreiber.mobileprovision > "$RUNNER_TEMP/profile.plist"
+          UUID=$(/usr/libexec/PlistBuddy -c 'Print UUID' "$RUNNER_TEMP/profile.plist")
+          echo "PROFILE_UUID=$UUID" >> "$GITHUB_ENV"
+
+      - name: Unterschriebene App bauen (.ipa)
+        if: ${{ secrets.IOS_CERT_P12_B64 != '' }}
+        working-directory: ios/App
+        env:
+          TEAM: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphoneos \
+            -destination 'generic/platform=iOS' -archivePath build/App.xcarchive archive \
+            CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM="$TEAM" PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
+            CODE_SIGN_IDENTITY="Apple Distribution" | tail -30
+          cat > build/export.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>teamID</key><string>$TEAM</string>
+            <key>uploadSymbols</key><true/>
+            <key>provisioningProfiles</key><dict><key>at.mayoka.antreiber</key><string>$PROFILE_UUID</string></dict>
+          </dict></plist>
+          EOF
+          xcodebuild -exportArchive -archivePath build/App.xcarchive -exportOptionsPlist build/export.plist -exportPath build/out | tail -20
+          cp build/out/*.ipa ../../antreiber.ipa
+
+      - name: Zu TestFlight hochladen
+        if: ${{ secrets.IOS_CERT_P12_B64 != '' && secrets.ASC_KEY_P8_B64 != '' }}
+        env:
+          KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ISSUER: ${{ secrets.ASC_ISSUER_ID }}
+          P8: ${{ secrets.ASC_KEY_P8_B64 }}
+        run: |
+          mkdir -p ~/private_keys
+          printf '%s' "$P8" | tr -d ' \r\n\t' | base64 -d > ~/private_keys/AuthKey_$KEY_ID.p8
+          xcrun altool --upload-app -f antreiber.ipa -t ios --apiKey "$KEY_ID" --apiIssuer "$ISSUER"
+          echo "::notice::Hochgeladen. Nach einigen Minuten erscheint der Build in App Store Connect → TestFlight."
+
+      - name: iPhone-Datei ablegen
+        if: ${{ secrets.IOS_CERT_P12_B64 != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Antreiber-iPhone
+          path: antreiber.ipa

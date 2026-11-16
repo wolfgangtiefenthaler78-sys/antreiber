@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#fdf3ea">
 <title>Antreiber</title>
+<meta name="description" content="Selbsttest zu den fünf Antreibern: Welche inneren Sätze treiben mich an? 50 Aussagen, etwa 8 Minuten, alles bleibt am Handy.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Antreiber">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <style>
 @font-face{font-family:"Familjen Grotesk";font-weight:500;font-display:swap;src:url(fonts/familjen-grotesk-latin-500-normal.woff2) format("woff2")}
 @font-face{font-family:"Familjen Grotesk";font-weight:700;font-display:swap;src:url(fonts/familjen-grotesk-latin-700-normal.woff2) format("woff2")}
@@ -108,6 +116,15 @@ details[open] summary::after{content:"–"}
 .update .in{max-width:600px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
 .update p{flex:1 1 220px}
 .ver{font-family:var(--f-num);font-size:12px;color:var(--muted)}
+.brand a{display:inline-flex;border-radius:12px}
+.brand a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.legal ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.legal mark{background:#ffe58a;color:#2a2420;padding:0 4px;border-radius:4px}
+.legal h2{margin-top:6px}
+.foot{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:14px;color:var(--muted)}
+.foot button,.foot a{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;text-underline-offset:3px;min-height:32px}
+.install{border-left:5px solid var(--mk-blue)}
+.install ol{margin:0;padding-left:20px;display:grid;gap:4px}
 
 /* ---- Einladender Start ---- */
 .hero{display:grid;gap:14px;align-items:center}
@@ -189,7 +206,7 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
   <section id="start" class="stack" style="gap:22px">
     <div class="brand">
       <div class="stack" style="gap:8px"><div class="stripe"></div><span class="eyebrow">Selbsttest</span></div>
-      <img src="mayoka-logo.png" alt="MAYOKA andersch gsund">
+      <a href="https://mayoka.at" target="_blank" rel="noopener" aria-label="Zur Website von MAYOKA andersch gsund"><img src="mayoka-logo.png" alt="MAYOKA andersch gsund"></a>
     </div>
     <div class="hero">
       <div class="stack">
@@ -224,11 +241,13 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
       <p>Sie lesen 50 kurze Aussagen. Bei jeder wählen Sie, wie gut sie zu Ihnen passt – von 1 bis 5. Antworten Sie aus dem Bauch. Denken Sie an Ihren Alltag, nicht an Ihr Wunschbild.</p>
       <p class="hint">Ihre Antworten bleiben auf diesem Handy. Nichts wird gesendet.</p>
     </div>
+    <div class="card stack install" id="install" hidden></div>
     <div class="card stack">
       <h3>Werkzeuge für den Alltag</h3>
       <p>Auch ohne Test: Prüfen Sie, was Sie gerade antreibt. Ziehen Sie eine Erlaubnis-Karte. Oder üben Sie sieben Tage lang.</p>
       <div class="row"><button class="btn ghost" data-tool="now">Werkzeuge öffnen</button></div>
     </div>
+    <p class="foot"><button data-legal>Datenschutz und Impressum</button><a href="https://mayoka.at" target="_blank" rel="noopener">mayoka.at</a></p>
   </section>
 
   <!-- FRAGEN -->
@@ -295,11 +314,24 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
       <span class="eyebrow">Partner-Angebot</span>
       <h3>Zeit für eine Auszeit</h3>
       <p>Antreiber machen Druck. Gönnen Sie sich bewusst eine Pause. MAYOKA andersch gsund in Dornbirn bietet Raum für Wellness, Gesundheit und Ruhe.</p>
+      <p><a href="https://mayoka.at" target="_blank" rel="noopener">Mehr auf mayoka.at</a></p>
       <p class="hint">Kein Ersatz für ärztliche oder psychotherapeutische Behandlung.</p>
     </div>
     <div class="stack src">
       <p><b>Wichtig:</b> Der Test hilft beim Nachdenken über sich selbst. Er ist keine Diagnose und nicht wissenschaftlich geprüft. Die Antreiber sind ein Denkmodell aus der Transaktionsanalyse, kein gemessener Persönlichkeitstest.</p>
       <p>Grundlage: Kahler T. (1975): Drivers – the key to the process of scripts. Transactional Analysis Journal 5(3), 280–284. <a href="https://doi.org/10.1177/036215377500500318" target="_blank" rel="noopener">doi.org/10.1177/036215377500500318</a>. Die Aussagen in diesem Test sind neu formuliert.</p>
+      <p class="foot"><button data-legal>Datenschutz und Impressum</button></p>
+    </div>
+  </section>
+
+  <!-- RECHTLICHES (Text aus src/rechtliches.html, wird beim Bau eingesetzt) -->
+  <section id="legal" class="stack" style="gap:20px" hidden>
+    <div class="row" style="justify-content:space-between">
+      <span class="eyebrow">Rechtliches</span>
+      <button class="btn ghost small" id="legalBack">Zurück</button>
+    </div>
+    <div class="card">
+      <!-- RECHTLICHES -->
     </div>
   </section>
 
@@ -510,7 +542,7 @@ function refreshStart(){
 }
 
 /* ---- Fragen ---- */
-function show(id){ view=id; ["start","quiz","result","tools"].forEach(s=>$(s).hidden = s!==id); window.scrollTo(0,0); }
+function show(id){ view=id; ["start","quiz","result","tools","legal"].forEach(s=>$(s).hidden = s!==id); window.scrollTo(0,0); }
 function cheer(i){
   return i<1 ? "Antworten Sie aus dem Bauch. Es gibt kein Richtig oder Falsch."
     : i<10 ? "Gut so. Einfach weiter." : i<25 ? "Sie sind gut unterwegs." : i<35 ? "Halbzeit geschafft!"
@@ -638,6 +670,8 @@ function openTools(tab, k){
 }
 function closeTools(){ if (prevView==="result" && cur) show("result"); else { show("start"); refreshStart(); } }
 $("toolsBack").onclick = closeTools;
+document.addEventListener("click", e=>{ if (e.target.closest("[data-legal]")){ prevView = view; show("legal"); } });
+$("legalBack").onclick = closeTools;
 document.addEventListener("click", e=>{ const b = e.target.closest("[data-tool]"); if(b) openTools(b.dataset.tool, b.dataset.k); });
 const TABS = ["now","card","plan"];
 function selectTab(t){
@@ -770,12 +804,39 @@ async function checkUpdate(force){
 })();
 checkUpdate(false);
 
+/* ---- Web-Fassung (Browser, GitHub Pages) ----
+   Service Worker legt die App ab, damit sie ohne Internet startet. Gibt es eine neue Version, erscheint „Jetzt neu laden“.
+   Am iPhone: Hinweis, wie man die App auf den Home-Bildschirm legt. In Chrome: Knopf „App installieren“. */
+const isWeb = !isNative && !!window.__AB_WEB;   // Web-Fassung (GitHub Pages), nicht die App
+if (isWeb && "serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")){
+  navigator.serviceWorker.register("sw.js", {updateViaCache:"none"}).then(reg=>{
+    reg.addEventListener("updatefound", ()=>{ const w = reg.installing; if(!w) return;
+      w.addEventListener("statechange", ()=>{ if (w.state==="installed" && navigator.serviceWorker.controller && view!=="quiz") bar("Eine neue Version ist bereit.", "Jetzt neu laden", ()=>location.reload()); }); });
+  }).catch(()=>{});
+}
+if (isWeb){
+  const ua = navigator.userAgent, standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  const ios = /iPhone|iPad|iPod/.test(ua), android = /Android/.test(ua);
+  let deferred = null;
+  window.addEventListener("beforeinstallprompt", e=>{ e.preventDefault(); deferred = e; drawInstall(); });
+  function drawInstall(){
+    const el = $("install");
+    if (standalone){ el.hidden = true; return; }
+    if (ios) el.innerHTML = `<h3>Als App aufs iPhone</h3><p>So haben Sie den Test immer griffbereit – auch ohne Internet:</p><ol><li>Tippen Sie in Safari unten auf <b>Teilen</b> (Viereck mit Pfeil nach oben).</li><li>Wählen Sie <b>„Zum Home-Bildschirm“</b>.</li><li>Tippen Sie auf <b>Hinzufügen</b>.</li></ol><p class="hint">Es wird nichts aus dem App Store geladen. Ihre Antworten bleiben auf dem iPhone.</p>`;
+    else if (android) el.innerHTML = `<h3>Als App aufs Handy</h3><p>Für Android gibt es die App zum Herunterladen. Oder Sie legen diese Seite als App auf den Startbildschirm.</p><div class="row">${deferred?`<button class="btn" id="installBtn">App installieren</button>`:""}<a class="btn ghost" href="${(UPD&&UPD.apk)||"https://github.com/wolfgangtiefenthaler78-sys/antreiber/releases/latest/download/antreiber.apk"}">Android-App laden</a></div>`;
+    else el.innerHTML = `<h3>Auch am Handy</h3><p>Öffnen Sie diese Seite am Handy. Am iPhone legen Sie sie über „Teilen → Zum Home-Bildschirm“ als App ab. Für Android gibt es die App zum Herunterladen.</p>${deferred?`<div class="row"><button class="btn" id="installBtn">App installieren</button></div>`:""}`;
+    el.hidden = false;
+    const b = $("installBtn"); if (b) b.onclick = async ()=>{ if(!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; drawInstall(); };
+  }
+  drawInstall();
+}
+
 if (App){
   App.addListener("appStateChange", st=>{ if (st.isActive) checkUpdate(false); });
   App.addListener("backButton", ()=>{
     if (view==="quiz") goBack();
     else if (view==="result"){ show("start"); refreshStart(); }
-    else if (view==="tools") closeTools();
+    else if (view==="tools" || view==="legal") closeTools();
     else App.exitApp();
   });
 }
