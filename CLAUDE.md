@@ -19,7 +19,7 @@ und ein iPhone-Projekt (`ios/`, Bau nur über GitHub; auf ein iPhone kommt es er
 | Teil | Ort |
 |---|---|
 | Inhalt und Logik (eine Datei) | `src/app.html` (Platzhalter `<!-- RECHTLICHES -->`) |
-| Datenschutz und Impressum (ein Text für App und Web) | `src/rechtliches.html` – gelbe `[bitte ergänzen]`-Stellen vor Store-Einreichung füllen |
+| Datenschutz und Impressum (ein Text für App und Web) | `src/rechtliches.html` (Firmenangaben laut Impressum mayoka.at) |
 | Wissenschaftlicher Hintergrund | `src/hintergrund.html` (Platzhalter `<!-- HINTERGRUND -->`) |
 | Feste Dateien (Schriften, Logo, Capacitor-Kern) | `static/` |
 | Bau: Lader `www/index.html` + Update-Dateien `dist/` + Web-Fassung `web/` (mit Service Worker) | `scripts/build.mjs` (`npm run build`, `npm run android`) |

@@ -54,4 +54,4 @@ Kein Mac nötig: Der Bau läuft bei GitHub. Ein Mac ist nur bequemer, wenn man s
 
 - Apps, die „nur eine Website“ sind, lehnt Apple ab – deshalb hat die App eigene Funktionen (Werkzeuge, Verlauf, Teilen) und läuft offline.
 - Gesundheitsthemen: Der Hinweis „keine Diagnose“ steht in der App und in der Datenschutzerklärung. Keine Heilversprechen in den Store-Texten.
-- Das Impressum und die Datenschutzerklärung müssen vollständig sein (gelbe Stellen in `src/rechtliches.html` ausfüllen).
+- Impressum und Datenschutzerklärung sind vollständig (Firmenangaben laut mayoka.at).

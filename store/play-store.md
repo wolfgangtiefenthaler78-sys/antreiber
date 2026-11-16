@@ -17,8 +17,7 @@ Alles, was für die Einreichung nötig ist, liegt bereit. Diese Liste führt Sch
 
 ## Vorher ausfüllen
 
-- In `src/rechtliches.html` die gelb markierten Stellen ergänzen: E-Mail, Telefon, Firmenbuchnummer, UID.
-  Danach auf `main` übernehmen – die Seite aktualisiert sich von selbst.
+- Impressum und Datenschutz sind vollständig (Firmenangaben laut mayoka.at).
 - Prüfen, ob `https://mayoka.at` die richtige Website-Adresse ist (steht im Logo-Link und im Impressum).
 
 ## Schritte in der Play Console (https://play.google.com/console)
@@ -77,4 +76,4 @@ Eine App von MAYOKA andersch gsund, Dornbirn.
 
 **Kategorie:** Gesundheit & Fitness · **Tags:** Selbsttest, Stress, Persönlichkeit, Achtsamkeit
 
-**Kontakt-E-Mail (Pflicht, wird öffentlich angezeigt):** [E-Mail der Firma]
+**Kontakt-E-Mail (Pflicht, wird öffentlich angezeigt):** office@mayoka.at
