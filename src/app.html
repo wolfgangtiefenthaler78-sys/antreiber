@@ -124,6 +124,20 @@ details[open] summary::after{content:"–"}
 .foot{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:14px;color:var(--muted)}
 .foot button,.foot a{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;text-underline-offset:3px;min-height:32px}
 .install{border-left:5px solid var(--mk-blue)}
+.home{display:inline-flex;align-items:center;gap:6px}
+.home svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.topbar .row{gap:6px}
+.explain .opt{min-height:44px;padding:9px 12px}
+.explain .n{width:26px;height:26px;font-size:13px}
+.explain .step{display:grid;gap:10px;padding-top:12px;border-top:1px solid var(--line)}
+.explain .stepno{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-family:var(--f-num);font-size:14px;margin-right:8px;vertical-align:middle}
+.explain .mini svg{width:110px;height:110px}
+.explain .mini{grid-template-columns:110px 1fr}
+.danger{color:#b3261e}
+@media (prefers-color-scheme: dark){.danger{color:#f28b82}}
+.confirm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:15px}
+
 .install ol{margin:0;padding-left:20px;display:grid;gap:4px}
 
 /* ---- Einladender Start ---- */
@@ -224,6 +238,17 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
       <div class="fact"><b>8 Min.</b>Zeit, etwa</div>
       <div class="fact"><b>100 %</b>bleibt am Handy</div>
     </div>
+    <div class="card stack explain" id="explain">
+      <h3>Kurz erklärt – probieren Sie es</h3>
+      <div class="stack" style="gap:8px">
+        <p><span class="stepno">1</span>Sie lesen eine Aussage und tippen an, wie gut sie zu Ihnen passt:</p>
+        <p class="statement" style="min-height:0;font-size:20px">„Bevor ich etwas abgebe, prüfe ich es lieber noch einmal.“</p>
+        <div class="scale" id="exScale"></div>
+        <p class="hint">Antworten Sie aus dem Bauch. Denken Sie an Ihren Alltag, nicht an Ihr Wunschbild. Ihre Antworten bleiben auf diesem Handy.</p>
+      </div>
+      <div class="step" id="exStep2" hidden></div>
+      <div class="step" id="exStep3" hidden></div>
+    </div>
     <div class="row">
       <button class="btn" id="go">Test starten</button>
       <button class="btn ghost" id="resume" hidden>Weitermachen</button>
@@ -235,11 +260,6 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
       <p class="hint">Tippen Sie einen an, um mehr zu erfahren.</p>
       <div class="drivers" id="chips"></div>
       <div class="card stack info" id="driverInfo" hidden aria-live="polite"></div>
-    </div>
-    <div class="card stack">
-      <h3>So geht's</h3>
-      <p>Sie lesen 50 kurze Aussagen. Bei jeder wählen Sie, wie gut sie zu Ihnen passt – von 1 bis 5. Antworten Sie aus dem Bauch. Denken Sie an Ihren Alltag, nicht an Ihr Wunschbild.</p>
-      <p class="hint">Ihre Antworten bleiben auf diesem Handy. Nichts wird gesendet.</p>
     </div>
     <div class="card stack install" id="install" hidden></div>
     <div class="card stack">
@@ -253,9 +273,9 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
   <!-- FRAGEN -->
   <section id="quiz" class="stack" style="gap:20px" hidden>
     <div class="stack" style="gap:8px">
-      <div class="row" style="justify-content:space-between">
+      <div class="topbar">
         <span class="count" id="count">1 / 50</span>
-        <button class="btn ghost small" id="back">Zurück</button>
+        <div class="row"><button class="btn ghost small" id="back">Zurück</button><button class="btn ghost small home" data-home aria-label="Zur Startseite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>Start</button></div>
       </div>
       <div class="progress"><i id="bar"></i></div>
       <p class="hint" id="cheer"></p>
@@ -267,7 +287,7 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
   <!-- ERGEBNIS -->
   <section id="result" class="stack" style="gap:22px" hidden>
     <div class="stack">
-      <span class="eyebrow" id="resultWhen">Ihr Ergebnis</span>
+      <div class="topbar"><span class="eyebrow" id="resultWhen">Ihr Ergebnis</span><button class="btn ghost small home" data-home aria-label="Zur Startseite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>Start</button></div>
       <h1 id="headline"></h1>
       <p id="summary"></p>
     </div>
@@ -305,6 +325,11 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
       <h3 style="margin-top:8px">Frühere Tests</h3>
       <div class="hist" id="histList"></div>
     </div>
+    <div class="card stack" id="delCard">
+      <h3>Ergebnis löschen</h3>
+      <p class="hint">Gelöschte Tests sind endgültig weg. Es wird nichts gesichert.</p>
+      <div class="confirm" id="delBox"><button class="btn ghost small danger" id="delOne">Diesen Test löschen</button><button class="btn ghost small danger" id="delAll" hidden>Alle Tests löschen</button></div>
+    </div>
     <div class="row">
       <button class="btn" id="share">Ergebnis teilen</button>
       <button class="btn ghost" id="again">Zur Startseite</button>
@@ -326,9 +351,9 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
 
   <!-- RECHTLICHES (Text aus src/rechtliches.html, wird beim Bau eingesetzt) -->
   <section id="legal" class="stack" style="gap:20px" hidden>
-    <div class="row" style="justify-content:space-between">
+    <div class="topbar">
       <span class="eyebrow">Rechtliches</span>
-      <button class="btn ghost small" id="legalBack">Zurück</button>
+      <div class="row"><button class="btn ghost small" id="legalBack">Zurück</button><button class="btn ghost small home" data-home aria-label="Zur Startseite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>Start</button></div>
     </div>
     <div class="card">
       <!-- RECHTLICHES -->
@@ -337,9 +362,9 @@ button.chip[aria-expanded="true"]{border-color:var(--accent);box-shadow:inset 0 
 
   <!-- WERKZEUGE -->
   <section id="tools" class="stack" style="gap:20px" hidden>
-    <div class="row" style="justify-content:space-between">
+    <div class="topbar">
       <span class="eyebrow">Werkzeuge</span>
-      <button class="btn ghost small" id="toolsBack">Zurück</button>
+      <div class="row"><button class="btn ghost small" id="toolsBack">Zurück</button><button class="btn ghost small home" data-home aria-label="Zur Startseite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>Start</button></div>
     </div>
     <h1>Für den Alltag</h1>
     <div class="tabs" role="tablist" aria-label="Werkzeuge">
@@ -524,7 +549,8 @@ function refreshStart(){
     $("lastCard").innerHTML = `<div class="mini">${radarSVG(last.s,{labels:false,mini:true})}<div class="stack" style="gap:6px">
       <span class="eyebrow">Ihr letztes Ergebnis</span><p><b>${D[top].name}</b> war am stärksten (${last.s[top]} Punkte).</p>
       <p class="hint">${fmtDate(last.t)}${h.length>1?` · ${h.length} Tests gespeichert`:""}</p>
-      <div><button class="linkish" id="openLast">Ergebnis ansehen</button></div></div></div>`;
+      <div class="row"><button class="linkish" id="openLast">Ergebnis ansehen</button><button class="linkish danger" id="delLast">Löschen</button></div></div></div>`;
+    $("delLast").onclick = ()=>{ showResult(h.length-1); askDelete(false); $("delCard").scrollIntoView({block:"center"}); };
     $("openLast").onclick = ()=>showResult(h.length-1);
   }
   $("lastCard").hidden = !h.length;
@@ -540,6 +566,22 @@ function refreshStart(){
   }
   $("savedCard").hidden = !(sv || p.k);
 }
+
+/* ---- Kurz-Erklärung auf der Startseite: eine Beispiel-Aussage antippen, sehen, was daraus wird ---- */
+$("exScale").innerHTML = SCALE.map((t,i)=>`<button class="opt" data-v="${i+1}" aria-pressed="false"><span class="n">${i+1}</span>${t}</button>`).join("");
+$("exScale").addEventListener("click", e=>{
+  const b = e.target.closest(".opt"); if(!b) return;
+  const v = +b.dataset.v;
+  $("exScale").querySelectorAll(".opt").forEach(o=>o.setAttribute("aria-pressed", o===b));
+  const pts = v*10, pct = (pts-10)/40*100, lv = level(pts);
+  $("exStep2").innerHTML = `<p><span class="stepno">2</span>Diese Aussage gehört zu <b>„Sei perfekt!“</b>. Zehn solche Aussagen ergeben 10 bis 50 Punkte. Antworten Sie immer so, wären das <b>${pts} Punkte · ${lv}</b>.</p>
+    <div><div class="track"><div class="fill" style="width:${Math.max(pct,2)}%;background:var(--d-perfekt)"></div><span class="mark" style="left:${(STRONG-10)/40*100}%"></span></div>
+    <div class="axis" aria-hidden="true"><span>10</span><span>38 = stark</span><span>50</span></div></div>`;
+  $("exStep2").hidden = false;
+  const demo = {perfekt:pts, stark:28, beeil:34, streng:22, recht:31};
+  $("exStep3").innerHTML = `<div class="mini">${radarSVG(demo,{labels:false,mini:true})}<p><span class="stepno">3</span>Am Ende sehen Sie alle fünf Antreiber auf einen Blick – mit Erklärung, Erlaubnis-Satz und Übung. Das war's schon.</p></div>`;
+  $("exStep3").hidden = false;
+});
 
 /* ---- Fragen ---- */
 function show(id){ view=id; ["start","quiz","result","tools","legal"].forEach(s=>$(s).hidden = s!==id); window.scrollTo(0,0); }
@@ -605,6 +647,7 @@ function showResult(i){
   $("planFromResult").dataset.k = sorted[0];
   $("planFromResult").textContent = `7-Tage-Übung zu „${D[sorted[0]].name}“`;
   drawHistory();
+  resetDelete();
   show("result");
 }
 function drawProfile(){
@@ -647,6 +690,25 @@ function drawHistory(){
 }
 $("histList").addEventListener("click", e=>{ const b=e.target.closest("button"); if(b) showResult(+b.dataset.i); });
 
+/* ---- Ergebnisse löschen (mit Rückfrage direkt an Ort und Stelle) ---- */
+function askDelete(all){
+  $("delBox").innerHTML = `<span>${all ? "Wirklich alle Tests löschen?" : "Diesen Test wirklich löschen?"}</span>
+    <button class="btn small danger" style="background:transparent;border:1px solid currentColor" id="delYes">Ja, löschen</button><button class="btn ghost small" id="delNo">Nein</button>`;
+  $("delYes").onclick = ()=>doDelete(all); $("delNo").onclick = resetDelete;
+}
+function resetDelete(){
+  const h = hist.get();
+  $("delBox").innerHTML = `<button class="btn ghost small danger" id="delOne">Diesen Test löschen</button><button class="btn ghost small danger" id="delAll" ${h.length>1?"":"hidden"}>Alle Tests löschen</button>`;
+  $("delOne").onclick = ()=>askDelete(false); $("delAll").onclick = ()=>askDelete(true);
+}
+function doDelete(all){
+  let h = hist.get();
+  if (all) h = []; else h.splice(curIdx, 1);
+  hist.set(h);
+  if (all || curIdx >= h.length) store.clear();   // laufender/letzter Test gehört dazu
+  if (h.length) showResult(Math.min(curIdx, h.length-1)); else { cur = null; show("start"); refreshStart(); }
+}
+
 function resultText(){
   const s=cur;
   return "Mein Antreiber-Profil\n" + sortByScore(s).map(k=>`${D[k].name}: ${s[k]} Punkte (${level(s[k])})`).join("\n");
@@ -671,6 +733,7 @@ function openTools(tab, k){
 function closeTools(){ if (prevView==="result" && cur) show("result"); else { show("start"); refreshStart(); } }
 $("toolsBack").onclick = closeTools;
 document.addEventListener("click", e=>{ if (e.target.closest("[data-legal]")){ prevView = view; show("legal"); } });
+document.addEventListener("click", e=>{ if (e.target.closest("[data-home]")){ show("start"); refreshStart(); } });   // von überall zurück zum Start, Fortschritt bleibt gespeichert
 $("legalBack").onclick = closeTools;
 document.addEventListener("click", e=>{ const b = e.target.closest("[data-tool]"); if(b) openTools(b.dataset.tool, b.dataset.k); });
 const TABS = ["now","card","plan"];
